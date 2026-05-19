@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcards PRO – Medien und Politik</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#f5f7fb;
+color:#1f2937;
+}
+
+header{
+background:linear-gradient(135deg,#7c3aed,#dc2626);
+color:white;
+text-align:center;
+padding:70px 20px;
+}
+
+header h1{
+font-size:3rem;
+margin-bottom:10px;
+}
+
+header p{
+font-size:1.15rem;
+}
+
+.container{
+max-width:1300px;
+margin:auto;
+padding:35px 20px;
+}
+
+.controls{
+display:flex;
+gap:12px;
+justify-content:center;
+flex-wrap:wrap;
+margin-bottom:30px;
+}
+
+button{
+border:none;
+padding:14px 22px;
+border-radius:16px;
+font-weight:900;
+cursor:pointer;
+color:white;
+font-size:1rem;
+}
+
+.purple{
+background:#7c3aed;
+box-shadow:0 5px 0 #5b21b6;
+}
+
+.green{
+background:#58cc02;
+box-shadow:0 5px 0 #46a302;
+}
+
+.blue{
+background:#1cb0f6;
+box-shadow:0 5px 0 #1689c7;
+}
+
+.red{
+background:#dc2626;
+box-shadow:0 5px 0 #991b1b;
+}
+
+.stats{
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+margin-bottom:30px;
+}
+
+.stat{
+background:white;
+padding:12px 18px;
+border-radius:999px;
+font-weight:900;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:22px;
+}
+
+.card{
+height:180px;
+perspective:1000px;
+cursor:pointer;
+}
+
+.inner{
+position:relative;
+width:100%;
+height:100%;
+transition:transform .7s;
+transform-style:preserve-3d;
+}
+
+.card.flipped .inner{
+transform:rotateY(180deg);
+}
+
+.front,
+.back{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:24px;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:18px;
+text-align:center;
+font-weight:900;
+font-size:1.35rem;
+backface-visibility:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.front{
+background:white;
+}
+
+.back{
+background:#7c3aed;
+color:white;
+transform:rotateY(180deg);
+}
+
+.learned{
+outline:6px solid #58cc02;
+}
+
+.quiz-section{
+background:white;
+border-radius:24px;
+padding:30px;
+margin-top:40px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+display:none;
+}
+
+.question{
+font-size:2rem;
+font-weight:900;
+text-align:center;
+margin-bottom:20px;
+}
+
+.options{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.option{
+background:#eef2ff;
+color:#111;
+}
+
+.feedback{
+margin-top:20px;
+padding:15px;
+border-radius:16px;
+font-weight:900;
+text-align:center;
+display:none;
+}
+
+.correct{
+display:block;
+background:#dcfce7;
+color:#166534;
+}
+
+.wrong{
+display:block;
+background:#fee2e2;
+color:#991b1b;
+}
+
+.progress{
+height:18px;
+background:#e5e7eb;
+border-radius:999px;
+overflow:hidden;
+margin:20px 0;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:#58cc02;
+transition:.3s;
+}
+
+.search{
+max-width:450px;
+margin:0 auto 25px auto;
+}
+
+.search input{
+width:100%;
+padding:14px;
+border-radius:16px;
+border:2px solid #d1d5db;
+font-size:1rem;
+}
+
+footer{
+text-align:center;
+padding:30px;
+color:#666;
+}
+
+@media(max-width:700px){
+header h1{
+font-size:2.2rem;
+}
+
+.front,
+.back{
+font-size:1.1rem;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🃏 Flashcards PRO</h1>
+<p>Medien, Politik, Gesellschaft und Nachrichten</p>
+</header>
+
+<main class="container">
+
+<div class="controls">
+
+<button class="purple" onclick="flipAll()">
+🔄 Alle umdrehen
+</button>
+
+<button class="green" onclick="shuffleCards()">
+🎲 Mischen
+</button>
+
+<button class="blue" onclick="startQuiz()">
+🧠 Quiz starten
+</button>
+
+<button class="red" onclick="resetLearned()">
+♻️ Fortschritt löschen
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+📚 Karten: <span id="totalCards"></span>
+</div>
+
+<div class="stat">
+✅ Gelernt: <span id="learnedCount">0</span>
+</div>
+
+</div>
+
+<div class="search">
+<input
+type="text"
+placeholder="🔍 Wort suchen..."
+onkeyup="searchCards(this.value)"
+>
+</div>
+
+<div class="progress">
+<div class="bar" id="progressBar"></div>
+</div>
+
+<section id="cardsGrid" class="grid"></section>
+
+<section class="quiz-section" id="quizSection">
+
+<h2 style="text-align:center;margin-bottom:20px;">
+🧠 Mini Quiz
+</h2>
+
+<div class="question" id="quizQuestion"></div>
+
+<div class="options" id="quizOptions"></div>
+
+<div id="feedback" class="feedback"></div>
+
+<button
+class="green"
+style="margin-top:25px;width:100%;"
+onclick="nextQuiz()"
+>
+Nächste Frage
+</button>
+
+</section>
+
+</main>
+
+<footer>
+<p>© 2026 – Flashcards PRO</p>
+</footer>
+
+<script>
+
+const cards = [
+
+["die Nachrichten","las noticias"],
+["die Zeitung","el periódico"],
+["die Zeitschrift","la revista"],
+["das Fernsehen","la televisión"],
+["das Radio","la radio"],
+["der Journalist","el periodista"],
+["die Journalistin","la periodista"],
+["berichten","informar"],
+["die Information","la información"],
+["die Reportage","el reportaje"],
+["das Interview","la entrevista"],
+["die Presse","la prensa"],
+["die Schlagzeile","el titular"],
+["die Medien","los medios"],
+["die Öffentlichkeit","la opinión pública"],
+
+["das Internet","internet"],
+["die sozialen Medien","las redes sociales"],
+["posten","publicar"],
+["liken","dar like"],
+["kommentieren","comentar"],
+["teilen","compartir"],
+["das Video","el video"],
+["das Foto","la foto"],
+["die Nachricht","el mensaje"],
+["online","en línea"],
+["herunterladen","descargar"],
+["hochladen","subir"],
+["die Webseite","la página web"],
+["die App","la aplicación"],
+["der Influencer","el influencer"],
+
+["die Demokratie","la democracia"],
+["die Wahl","la elección"],
+["wählen","votar"],
+["der Präsident","el presidente"],
+["die Präsidentin","la presidenta"],
+["der Politiker","el político"],
+["die Politikerin","la política"],
+["protestieren","protestar"],
+["die Meinung","la opinión"],
+["diskutieren","discutir"],
+["die Gesellschaft","la sociedad"],
+["die Freiheit","la libertad"],
+["die Rechte","los derechos"],
+["die Verantwortung","la responsabilidad"],
+["die Umwelt","el medioambiente"]
+
+];
+
+let learned =
+JSON.parse(
+localStorage.getItem("flashcardsPRO")
+|| "[]"
+);
+
+let quizPool = [];
+let currentQuiz = 0;
+let quizAnswer = "";
+
+function updateStats(){
+
+document.getElementById("learnedCount")
+.innerText = learned.length;
+
+document.getElementById("totalCards")
+.innerText = cards.length;
+
+let percent =
+(learned.length / cards.length) * 100;
+
+document.getElementById("progressBar")
+.style.width = percent + "%";
+
+}
+
+function saveLearned(){
+
+localStorage.setItem(
+"flashcardsPRO",
+JSON.stringify(learned)
+);
+
+updateStats();
+
+}
+
+function renderCards(data = cards){
+
+const grid =
+document.getElementById("cardsGrid");
+
+grid.innerHTML = "";
+
+data.forEach(card => {
+
+const div =
+document.createElement("div");
+
+div.className =
+"card" +
+(learned.includes(card[0])
+? " learned"
+: "");
+
+div.onclick = function(){
+
+div.classList.toggle("flipped");
+
+if(!learned.includes(card[0])){
+
+learned.push(card[0]);
+
+saveLearned();
+
+div.classList.add("learned");
+
+}
+
+};
+
+div.innerHTML = `
+<div class="inner">
+
+<div class="front">
+${card[0]}
+</div>
+
+<div class="back">
+${card[1]}
+</div>
+
+</div>
+`;
+
+grid.appendChild(div);
+
+});
+
+}
+
+function flipAll(){
+
+document.querySelectorAll(".card")
+.forEach(card => {
+
+card.classList.toggle("flipped");
+
+});
+
+}
+
+function shuffle(array){
+
+return [...array]
+.sort(() => Math.random() - 0.5);
+
+}
+
+function shuffleCards(){
+
+renderCards(shuffle(cards));
+
+}
+
+function resetLearned(){
+
+if(confirm("Fortschritt löschen?")){
+
+learned = [];
+
+saveLearned();
+
+renderCards();
+
+}
+
+}
+
+function searchCards(text){
+
+text = text.toLowerCase();
+
+const filtered =
+cards.filter(card =>
+
+card[0].toLowerCase().includes(text)
+||
+card[1].toLowerCase().includes(text)
+
+);
+
+renderCards(filtered);
+
+}
+
+function startQuiz(){
+
+document.getElementById("quizSection")
+.style.display = "block";
+
+quizPool = shuffle(cards).slice(0,15);
+
+currentQuiz = 0;
+
+loadQuiz();
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
+
+}
+
+function loadQuiz(){
+
+if(currentQuiz >= quizPool.length){
+
+document.getElementById("quizQuestion")
+.innerHTML = "🎉 Quiz beendet!";
+
+document.getElementById("quizOptions")
+.innerHTML = "";
+
+document.getElementById("feedback")
+.className = "feedback correct";
+
+document.getElementById("feedback")
+.innerText = "Super gemacht!";
+
+return;
+
+}
+
+let item = quizPool[currentQuiz];
+
+quizAnswer = item[1];
+
+document.getElementById("quizQuestion")
+.innerText = item[0];
+
+let pool =
+cards
+.map(x => x[1])
+.filter(x => x !== quizAnswer);
+
+pool = shuffle(pool).slice(0,3);
+
+pool.push(quizAnswer);
+
+pool = shuffle(pool);
+
+let html = "";
+
+pool.forEach(opt => {
+
+html += `
+<button
+class="option"
+onclick="checkQuiz('${opt}')"
+>
+${opt}
+</button>
+`;
+
+});
+
+document.getElementById("quizOptions")
+.innerHTML = html;
+
+document.getElementById("feedback")
+.className = "feedback";
+
+document.getElementById("feedback")
+.innerText = "";
+
+}
+
+function checkQuiz(selected){
+
+let fb =
+document.getElementById("feedback");
+
+if(selected === quizAnswer){
+
+fb.className = "feedback correct";
+
+fb.innerText = "✅ Richtig!";
+
+}else{
+
+fb.className = "feedback wrong";
+
+fb.innerHTML =
+"❌ Falsch. Richtige Antwort: <strong>"
++ quizAnswer +
+"</strong>";
+
+}
+
+}
+
+function nextQuiz(){
+
+currentQuiz++;
+
+loadQuiz();
+
+}
+
+renderCards();
+
+updateStats();
+
+</script>
+
+</body>
+</html>
