@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcards PRO+ Medien</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:linear-gradient(180deg,#eef2ff,#f8fafc);
+color:#111827;
+overflow-x:hidden;
+}
+
+header{
+background:linear-gradient(135deg,#7c3aed,#2563eb,#06b6d4);
+color:white;
+text-align:center;
+padding:80px 20px;
+position:relative;
+overflow:hidden;
+}
+
+header::after{
+content:"";
+position:absolute;
+width:500px;
+height:500px;
+background:rgba(255,255,255,.08);
+border-radius:50%;
+top:-250px;
+right:-120px;
+}
+
+header h1{
+font-size:3.5rem;
+margin-bottom:14px;
+position:relative;
+z-index:2;
+}
+
+header p{
+font-size:1.2rem;
+position:relative;
+z-index:2;
+}
+
+.container{
+max-width:1400px;
+margin:auto;
+padding:40px 20px;
+}
+
+.top-controls{
+display:flex;
+gap:15px;
+justify-content:center;
+flex-wrap:wrap;
+margin-bottom:25px;
+}
+
+button{
+border:none;
+border-radius:18px;
+padding:15px 24px;
+font-weight:900;
+cursor:pointer;
+font-size:1rem;
+color:white;
+transition:.2s;
+}
+
+button:hover{
+transform:translateY(-3px);
+}
+
+.purple{background:#7c3aed;box-shadow:0 6px 0 #5b21b6}
+.green{background:#58cc02;box-shadow:0 6px 0 #3f8f00}
+.blue{background:#1d4ed8;box-shadow:0 6px 0 #1e3a8a}
+.red{background:#dc2626;box-shadow:0 6px 0 #991b1b}
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+margin-bottom:35px;
+}
+
+.panel{
+background:white;
+padding:22px;
+border-radius:24px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+text-align:center;
+}
+
+.panel h3{
+font-size:2rem;
+margin-bottom:8px;
+color:#7c3aed;
+}
+
+.search{
+max-width:550px;
+margin:0 auto 35px auto;
+}
+
+.search input{
+width:100%;
+padding:16px;
+border-radius:18px;
+border:2px solid #cbd5e1;
+font-size:1rem;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:24px;
+}
+
+.card{
+height:210px;
+perspective:1200px;
+cursor:pointer;
+}
+
+.inner{
+position:relative;
+width:100%;
+height:100%;
+transition:transform .8s;
+transform-style:preserve-3d;
+}
+
+.card.flipped .inner{
+transform:rotateY(180deg);
+}
+
+.front,
+.back{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:28px;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:24px;
+text-align:center;
+font-weight:900;
+font-size:1.45rem;
+backface-visibility:hidden;
+box-shadow:0 14px 30px rgba(0,0,0,.1);
+}
+
+.front{
+background:white;
+}
+
+.back{
+background:linear-gradient(135deg,#7c3aed,#2563eb);
+color:white;
+transform:rotateY(180deg);
+}
+
+.learned{
+outline:7px solid #58cc02;
+}
+
+.category{
+position:absolute;
+top:14px;
+left:14px;
+background:#eef2ff;
+padding:7px 12px;
+border-radius:999px;
+font-size:.8rem;
+font-weight:900;
+color:#3730a3;
+}
+
+.quiz{
+margin-top:50px;
+background:white;
+padding:35px;
+border-radius:30px;
+box-shadow:0 12px 30px rgba(0,0,0,.08);
+display:none;
+}
+
+.quiz h2{
+text-align:center;
+margin-bottom:20px;
+font-size:2rem;
+}
+
+.question{
+font-size:2.2rem;
+font-weight:900;
+text-align:center;
+margin:25px 0;
+}
+
+.options{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:16px;
+}
+
+.option{
+background:#eef2ff;
+color:#111827;
+box-shadow:none;
+}
+
+.feedback{
+margin-top:20px;
+padding:16px;
+border-radius:18px;
+font-weight:900;
+text-align:center;
+display:none;
+}
+
+.correct{
+display:block;
+background:#dcfce7;
+color:#166534;
+}
+
+.wrong{
+display:block;
+background:#fee2e2;
+color:#991b1b;
+}
+
+.progress{
+height:22px;
+background:#e5e7eb;
+border-radius:999px;
+overflow:hidden;
+margin-top:18px;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#58cc02,#06b6d4);
+transition:.4s;
+}
+
+footer{
+text-align:center;
+padding:35px;
+color:#666;
+}
+
+@media(max-width:700px){
+header h1{font-size:2.3rem}
+.front,.back{font-size:1.15rem}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🃏 Flashcards PRO+</h1>
+<p>Medien • Politik • Gesellschaft • Internet • Nachrichten</p>
+</header>
+
+<main class="container">
+
+<div class="top-controls">
+<button class="purple" onclick="flipAll()">🔄 Alle umdrehen</button>
+<button class="green" onclick="shuffleCards()">🎲 Mischen</button>
+<button class="blue" onclick="startQuiz()">🧠 KI-Quiz</button>
+<button class="red" onclick="resetProgress()">♻️ Reset</button>
+</div>
+
+<div class="dashboard">
+<div class="panel">
+<h3 id="totalCards">0</h3>
+<p>Karten</p>
+</div>
+
+<div class="panel">
+<h3 id="learnedCards">0</h3>
+<p>Gelernt</p>
+</div>
+
+<div class="panel">
+<h3 id="quizScore">0</h3>
+<p>Quiz Punkte</p>
+</div>
+</div>
+
+<div class="search">
+<input type="text" placeholder="🔍 Wort suchen..." onkeyup="searchCards(this.value)">
+</div>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<section id="cardsGrid" class="grid"></section>
+
+<section class="quiz" id="quizBox">
+
+<h2>🧠 KI Quiz Trainer</h2>
+
+<div class="question" id="question"></div>
+
+<div class="options" id="options"></div>
+
+<div id="feedback" class="feedback"></div>
+
+<button class="green" style="margin-top:25px;width:100%;" onclick="nextQuiz()">
+Nächste Frage
+</button>
+
+</section>
+
+</main>
+
+<footer>
+<p>© 2026 – Flashcards PRO+</p>
+</footer>
+
+<script>
+
+const cards = [
+
+["die Nachrichten","las noticias","Medien"],
+["die Zeitung","el periódico","Medien"],
+["das Fernsehen","la televisión","Medien"],
+["das Radio","la radio","Medien"],
+["der Journalist","el periodista","Medien"],
+["die Reportage","el reportaje","Medien"],
+["die Schlagzeile","el titular","Medien"],
+["die Presse","la prensa","Medien"],
+
+["das Internet","internet","Internet"],
+["die sozialen Medien","las redes sociales","Internet"],
+["posten","publicar","Internet"],
+["kommentieren","comentar","Internet"],
+["teilen","compartir","Internet"],
+["hochladen","subir","Internet"],
+["herunterladen","descargar","Internet"],
+["der Influencer","el influencer","Internet"],
+
+["die Demokratie","la democracia","Politik"],
+["die Wahl","la elección","Politik"],
+["wählen","votar","Politik"],
+["der Präsident","el presidente","Politik"],
+["protestieren","protestar","Politik"],
+["die Meinung","la opinión","Politik"],
+["diskutieren","discutir","Politik"],
+
+["die Gesellschaft","la sociedad","Gesellschaft"],
+["die Freiheit","la libertad","Gesellschaft"],
+["die Verantwortung","la responsabilidad","Gesellschaft"],
+["die Umwelt","el medioambiente","Gesellschaft"]
+
+];
+
+let learned = JSON.parse(localStorage.getItem("flashcardsPROplus") || "[]");
+let score = 0;
+let quizPool = [];
+let current = 0;
+let answer = "";
+
+function updateStats(){
+
+document.getElementById("totalCards").innerText = cards.length;
+document.getElementById("learnedCards").innerText = learned.length;
+document.getElementById("quizScore").innerText = score;
+
+let percent = (learned.length/cards.length)*100;
+document.getElementById("bar").style.width = percent + "%";
+
+}
+
+function saveData(){
+
+localStorage.setItem("flashcardsPROplus", JSON.stringify(learned));
+
+updateStats();
+
+}
+
+function renderCards(data = cards){
+
+const grid = document.getElementById("cardsGrid");
+
+grid.innerHTML = "";
+
+data.forEach(card => {
+
+const div = document.createElement("div");
+
+div.className = "card" + (learned.includes(card[0]) ? " learned" : "");
+
+div.innerHTML = `
+<div class="inner">
+
+<div class="front">
+<div class="category">${card[2]}</div>
+${card[0]}
+</div>
+
+<div class="back">
+${card[1]}
+</div>
+
+</div>
+`;
+
+div.onclick = function(){
+
+div.classList.toggle("flipped");
+
+if(!learned.includes(card[0])){
+
+learned.push(card[0]);
+
+saveData();
+
+div.classList.add("learned");
+
+}
+
+};
+
+grid.appendChild(div);
+
+});
+
+}
+
+function flipAll(){
+
+document.querySelectorAll(".card").forEach(card => {
+
+card.classList.toggle("flipped");
+
+});
+
+}
+
+function shuffle(arr){
+
+return [...arr].sort(() => Math.random() - 0.5);
+
+}
+
+function shuffleCards(){
+
+renderCards(shuffle(cards));
+
+}
+
+function searchCards(text){
+
+text = text.toLowerCase();
+
+const filtered = cards.filter(card =>
+
+card[0].toLowerCase().includes(text)
+||
+card[1].toLowerCase().includes(text)
+||
+card[2].toLowerCase().includes(text)
+
+);
+
+renderCards(filtered);
+
+}
+
+function resetProgress(){
+
+if(confirm("Fortschritt löschen?")){
+
+learned = [];
+score = 0;
+
+saveData();
+
+renderCards();
+
+}
+
+}
+
+function startQuiz(){
+
+document.getElementById("quizBox").style.display = "block";
+
+quizPool = shuffle(cards).slice(0,15);
+
+current = 0;
+
+loadQuiz();
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
+
+}
+
+function loadQuiz(){
+
+if(current >= quizPool.length){
+
+document.getElementById("question").innerHTML =
+"🎉 Quiz beendet!";
+
+document.getElementById("options").innerHTML = "";
+
+document.getElementById("feedback").className =
+"feedback correct";
+
+document.getElementById("feedback").innerText =
+"Super gemacht!";
+
+return;
+
+}
+
+let item = quizPool[current];
+
+answer = item[1];
+
+document.getElementById("question").innerText =
+item[0];
+
+let options = cards
+.map(x => x[1])
+.filter(x => x !== answer);
+
+options = shuffle(options).slice(0,3);
+
+options.push(answer);
+
+options = shuffle(options);
+
+let html = "";
+
+options.forEach(opt => {
+
+html += `
+<button class="option"
+onclick="checkAnswer('${opt}')">
+${opt}
+</button>
+`;
+
+});
+
+document.getElementById("options").innerHTML = html;
+
+document.getElementById("feedback").className =
+"feedback";
+
+document.getElementById("feedback").innerText = "";
+
+}
+
+function checkAnswer(selected){
+
+let fb = document.getElementById("feedback");
+
+if(selected === answer){
+
+score++;
+
+updateStats();
+
+fb.className = "feedback correct";
+
+fb.innerText = "✅ Richtig!";
+
+}else{
+
+fb.className = "feedback wrong";
+
+fb.innerHTML =
+"❌ Falsch. Richtige Antwort: <strong>"
++ answer +
+"</strong>";
+
+}
+
+}
+
+function nextQuiz(){
+
+current++;
+
+loadQuiz();
+
+}
+
+renderCards();
+
+updateStats();
+
+</script>
+
+</body>
+</html>
