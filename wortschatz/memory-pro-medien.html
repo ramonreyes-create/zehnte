@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory PRO – Medien und Politik</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:linear-gradient(180deg,#eef2ff,#f8fafc);
+color:#111827;
+}
+
+header{
+background:linear-gradient(135deg,#7c3aed,#2563eb,#06b6d4);
+color:white;
+text-align:center;
+padding:70px 20px;
+}
+
+header h1{
+font-size:3.2rem;
+margin-bottom:10px;
+}
+
+.container{
+max-width:1300px;
+margin:auto;
+padding:35px 20px;
+}
+
+.panel{
+background:white;
+border-radius:28px;
+padding:28px;
+box-shadow:0 12px 30px rgba(0,0,0,.08);
+margin-bottom:28px;
+}
+
+.controls{
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+justify-content:center;
+align-items:center;
+}
+
+select{
+padding:14px 18px;
+border:2px solid #cbd5e1;
+border-radius:16px;
+font-weight:900;
+font-size:1rem;
+background:white;
+}
+
+button{
+border:none;
+border-radius:18px;
+padding:15px 24px;
+font-weight:900;
+cursor:pointer;
+font-size:1rem;
+color:white;
+transition:.2s;
+}
+
+button:hover{
+transform:translateY(-3px);
+}
+
+.purple{background:#7c3aed;box-shadow:0 6px 0 #5b21b6}
+.green{background:#58cc02;box-shadow:0 6px 0 #3f8f00}
+.red{background:#dc2626;box-shadow:0 6px 0 #991b1b}
+.blue{background:#1cb0f6;box-shadow:0 6px 0 #1689c7}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:16px;
+margin-top:20px;
+}
+
+.stat{
+background:#f3f4f6;
+padding:16px;
+border-radius:20px;
+text-align:center;
+font-weight:900;
+}
+
+.stat span{
+display:block;
+font-size:2rem;
+color:#7c3aed;
+}
+
+.board{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+gap:18px;
+}
+
+.card{
+height:130px;
+perspective:1100px;
+cursor:pointer;
+}
+
+.inner{
+position:relative;
+width:100%;
+height:100%;
+transition:transform .55s;
+transform-style:preserve-3d;
+}
+
+.card.flipped .inner,
+.card.matched .inner{
+transform:rotateY(180deg);
+}
+
+.front,
+.back{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:22px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:12px;
+font-weight:900;
+backface-visibility:hidden;
+box-shadow:0 10px 24px rgba(0,0,0,.1);
+}
+
+.front{
+background:linear-gradient(135deg,#7c3aed,#2563eb);
+color:white;
+font-size:2rem;
+}
+
+.back{
+background:white;
+color:#111827;
+transform:rotateY(180deg);
+font-size:1rem;
+}
+
+.card.matched .back{
+background:#dcfce7;
+color:#166534;
+border:4px solid #58cc02;
+}
+
+.card.wrong .back{
+background:#fee2e2;
+color:#991b1b;
+}
+
+.message{
+text-align:center;
+font-weight:900;
+font-size:1.15rem;
+margin-top:16px;
+padding:14px;
+border-radius:18px;
+background:#eef2ff;
+color:#3730a3;
+}
+
+.finish{
+display:none;
+text-align:center;
+background:white;
+border-radius:28px;
+padding:30px;
+box-shadow:0 12px 30px rgba(0,0,0,.08);
+margin-top:28px;
+}
+
+.finish h2{
+font-size:2.4rem;
+margin-bottom:12px;
+}
+
+.category{
+position:absolute;
+top:8px;
+left:8px;
+background:#eef2ff;
+color:#3730a3;
+font-size:.7rem;
+padding:5px 9px;
+border-radius:999px;
+font-weight:900;
+}
+
+@media(max-width:700px){
+header h1{font-size:2.2rem}
+.card{height:112px}
+.back{font-size:.85rem}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🧩 Memory PRO</h1>
+<p>Medien • Politik • Gesellschaft • Internet • Nachrichten</p>
+</header>
+
+<main class="container">
+
+<section class="panel">
+<div class="controls">
+<label><strong>Anzahl der Paare:</strong></label>
+<select id="pairCount">
+<option value="6">6 Paare</option>
+<option value="8" selected>8 Paare</option>
+<option value="10">10 Paare</option>
+<option value="12">12 Paare</option>
+<option value="15">15 Paare</option>
+</select>
+
+<button class="green" onclick="startGame()">Spiel starten</button>
+<button class="blue" onclick="showAll()">👀 Kurz zeigen</button>
+<button class="red" onclick="restartSame()">Neu starten</button>
+</div>
+
+<div class="stats">
+<div class="stat">Paare<span id="matched">0</span></div>
+<div class="stat">Versuche<span id="moves">0</span></div>
+<div class="stat">Zeit<span id="time">00:00</span></div>
+<div class="stat">Punkte<span id="score">0</span></div>
+</div>
+
+<div class="message" id="message">
+Wähle zwei Karten und finde die passende Übersetzung.
+</div>
+</section>
+
+<section class="board" id="board"></section>
+
+<section class="finish" id="finish">
+<h2>🎉 Geschafft!</h2>
+<p id="finalText"></p>
+<button class="purple" onclick="startGame()">Noch einmal spielen</button>
+</section>
+
+</main>
+
+<script>
+const VOCAB = [
+["die Nachrichten","las noticias","Medien"],
+["die Zeitung","el periódico","Medien"],
+["das Fernsehen","la televisión","Medien"],
+["das Radio","la radio","Medien"],
+["der Journalist","el periodista","Medien"],
+["die Reportage","el reportaje","Medien"],
+["die Schlagzeile","el titular","Medien"],
+["die Presse","la prensa","Medien"],
+
+["das Internet","internet","Internet"],
+["die sozialen Medien","las redes sociales","Internet"],
+["posten","publicar","Internet"],
+["kommentieren","comentar","Internet"],
+["teilen","compartir","Internet"],
+["hochladen","subir","Internet"],
+["herunterladen","descargar","Internet"],
+["der Influencer","el influencer","Internet"],
+
+["die Demokratie","la democracia","Politik"],
+["die Wahl","la elección","Politik"],
+["wählen","votar","Politik"],
+["der Präsident","el presidente","Politik"],
+["protestieren","protestar","Politik"],
+["die Meinung","la opinión","Politik"],
+["diskutieren","discutir","Politik"],
+
+["die Gesellschaft","la sociedad","Gesellschaft"],
+["die Freiheit","la libertad","Gesellschaft"],
+["die Verantwortung","la responsabilidad","Gesellschaft"],
+["die Umwelt","el medioambiente","Gesellschaft"]
+];
+
+let gameCards = [];
+let firstCard = null;
+let secondCard = null;
+let locked = false;
+let matchedPairs = 0;
+let moves = 0;
+let score = 0;
+let seconds = 0;
+let timer = null;
+let currentPairCount = 8;
+
+function shuffle(arr){
+return [...arr].sort(()=>Math.random()-0.5);
+}
+
+function formatTime(s){
+let m = Math.floor(s/60);
+let sec = s % 60;
+return String(m).padStart(2,"0") + ":" + String(sec).padStart(2,"0");
+}
+
+function startTimer(){
+clearInterval(timer);
+seconds = 0;
+document.getElementById("time").innerText = "00:00";
+timer = setInterval(()=>{
+seconds++;
+document.getElementById("time").innerText = formatTime(seconds);
+},1000);
+}
+
+function startGame(){
+currentPairCount = Number(document.getElementById("pairCount").value);
+let selected = shuffle(VOCAB).slice(0,currentPairCount);
+
+gameCards = [];
+selected.forEach((pair,index)=>{
+gameCards.push({id:index,text:pair[0],type:"de",category:pair[2]});
+gameCards.push({id:index,text:pair[1],type:"es",category:pair[2]});
+});
+
+gameCards = shuffle(gameCards);
+
+firstCard = null;
+secondCard = null;
+locked = false;
+matchedPairs = 0;
+moves = 0;
+score = 0;
+
+document.getElementById("matched").innerText = "0";
+document.getElementById("moves").innerText = "0";
+document.getElementById("score").innerText = "0";
+document.getElementById("finish").style.display = "none";
+document.getElementById("message").innerText = "Wähle zwei Karten und finde die passende Übersetzung.";
+
+renderBoard();
+startTimer();
+}
+
+function restartSame(){
+document.getElementById("pairCount").value = currentPairCount;
+startGame();
+}
+
+function renderBoard(){
+let board = document.getElementById("board");
+board.innerHTML = "";
+
+gameCards.forEach((card,index)=>{
+let div = document.createElement("div");
+div.className = "card";
+div.dataset.id = card.id;
+div.dataset.type = card.type;
+div.dataset.index = index;
+
+div.innerHTML = `
+<div class="inner">
+<div class="front">?</div>
+<div class="back">
+<div class="category">${card.category}</div>
+${card.text}
+</div>
+</div>
+`;
+
+div.onclick = ()=>flipCard(div);
+board.appendChild(div);
+});
+}
+
+function flipCard(card){
+if(locked) return;
+if(card.classList.contains("flipped")) return;
+if(card.classList.contains("matched")) return;
+
+card.classList.add("flipped");
+
+if(!firstCard){
+firstCard = card;
+return;
+}
+
+secondCard = card;
+moves++;
+document.getElementById("moves").innerText = moves;
+
+checkMatch();
+}
+
+function checkMatch(){
+let sameId = firstCard.dataset.id === secondCard.dataset.id;
+let differentType = firstCard.dataset.type !== secondCard.dataset.type;
+
+if(sameId && differentType){
+firstCard.classList.add("matched");
+secondCard.classList.add("matched");
+
+matchedPairs++;
+score += 10;
+
+document.getElementById("matched").innerText = matchedPairs;
+document.getElementById("score").innerText = score;
+document.getElementById("message").innerText = "✅ Richtiges Paar!";
+
+resetTurn();
+
+if(matchedPairs === currentPairCount){
+finishGame();
+}
+
+}else{
+locked = true;
+score = Math.max(0, score - 2);
+document.getElementById("score").innerText = score;
+document.getElementById("message").innerText = "❌ Nicht passend. Versuch es noch einmal.";
+
+firstCard.classList.add("wrong");
+secondCard.classList.add("wrong");
+
+setTimeout(()=>{
+firstCard.classList.remove("flipped","wrong");
+secondCard.classList.remove("flipped","wrong");
+resetTurn();
+},900);
+}
+}
+
+function resetTurn(){
+firstCard = null;
+secondCard = null;
+locked = false;
+}
+
+function showAll(){
+let cards = document.querySelectorAll(".card:not(.matched)");
+cards.forEach(c=>c.classList.add("flipped"));
+
+setTimeout(()=>{
+cards.forEach(c=>c.classList.remove("flipped"));
+},1600);
+}
+
+function finishGame(){
+clearInterval(timer);
+
+let bonus = Math.max(0, 100 - moves);
+score += bonus;
+
+document.getElementById("score").innerText = score;
+document.getElementById("finish").style.display = "block";
+document.getElementById("finalText").innerHTML =
+"Du hast <strong>" + currentPairCount + "</strong> Paare gefunden.<br>" +
+"Versuche: <strong>" + moves + "</strong><br>" +
+"Zeit: <strong>" + formatTime(seconds) + "</strong><br>" +
+"Punkte: <strong>" + score + "</strong>";
+
+document.getElementById("message").innerText = "🎉 Alle Paare gefunden!";
+}
+
+startGame();
+</script>
+
+</body>
+</html>
