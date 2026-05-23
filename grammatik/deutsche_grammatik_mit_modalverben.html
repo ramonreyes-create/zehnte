@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deutsche Grammatik</title>
+<style>
+:root{
+ --bg:#fff8ef;--card:#fff;--ink:#241b35;--muted:#6c617a;--purple:#6d43c7;--pink:#f45f93;--blue:#2f80ed;--green:#34a853;--red:#e5485d;--yellow:#ffd35a;--border:#eadff8;--shadow:0 14px 35px rgba(73,44,120,.14)
+}
+body.dark{--bg:#151429;--card:#211f38;--ink:#fff7fb;--muted:#cfc6df;--border:#3b335c;--shadow:0 14px 35px rgba(0,0,0,.35)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),#f2e9ff);color:var(--ink)}
+header{background:linear-gradient(135deg,#6d43c7,#f45f93);color:white;padding:48px 20px;text-align:center;border-bottom-left-radius:36px;border-bottom-right-radius:36px;box-shadow:var(--shadow)}
+h1{font-size:clamp(2.2rem,6vw,4.8rem);margin:0;letter-spacing:-2px}
+header p{font-size:1.25rem;max-width:850px;margin:14px auto 0;line-height:1.5}
+.app{max-width:1200px;margin:auto;padding:22px}
+.toolbar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:-25px}
+.btn{border:0;border-radius:999px;padding:12px 18px;font-weight:900;cursor:pointer;background:white;color:var(--purple);box-shadow:var(--shadow);text-decoration:none;display:inline-block}
+.btn.primary{background:var(--purple);color:white}
+.layout{display:grid;grid-template-columns:270px 1fr;gap:20px;margin-top:24px}
+nav{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:14px;box-shadow:var(--shadow);align-self:start;position:sticky;top:14px;max-height:88vh;overflow:auto}
+.navbtn{display:block;width:100%;border:0;background:transparent;color:var(--ink);text-align:left;padding:12px;border-radius:14px;font-weight:800;cursor:pointer}
+.navbtn:hover,.navbtn.active{background:linear-gradient(90deg,var(--purple),#8f65ec);color:white}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:22px}
+.topicHead{padding:26px 30px;background:linear-gradient(90deg,#fff3f7,#f4edff);display:flex;gap:16px;align-items:center}
+body.dark .topicHead{background:#ffffff08}
+.icon{font-size:3rem;background:white;border-radius:20px;padding:10px;box-shadow:0 6px 18px #0001}
+body.dark .icon{background:#2f2b4a}
+.topicHead h2{margin:0;font-size:2rem}
+.content{padding:26px 30px}
+.badge{display:inline-block;background:#f5eaff;color:var(--purple);padding:7px 14px;border-radius:999px;font-weight:900;margin-bottom:8px}
+body.dark .badge{background:#ffffff12;color:#f4d9ff}
+.explain{font-size:1.08rem;line-height:1.65;color:var(--muted);background:#faf7ff;border-left:7px solid var(--purple);padding:18px;border-radius:16px}
+body.dark .explain{background:#ffffff08}
+.examples{display:grid;gap:12px;margin:18px 0}
+.example{background:#eef7ff;border-left:7px solid var(--blue);padding:16px;border-radius:16px;font-size:1.15rem}
+.example b{display:block;color:var(--blue);font-size:1.25rem;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:18px 0;border-radius:16px;overflow:hidden}
+th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left}
+th{background:var(--purple);color:white}
+.exerciseBox{background:#fffdf1;border:1px solid #ffe7a1;border-radius:20px;padding:20px;margin-top:20px}
+body.dark .exerciseBox{background:#ffffff08}
+.exercise{display:grid;grid-template-columns:1fr 210px auto;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin:10px 0}
+input{padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;color:var(--ink);font-size:1rem}
+.check{background:var(--green);color:white;border:0;border-radius:12px;padding:12px 14px;font-weight:900;cursor:pointer}
+.feedback{font-weight:900;min-height:22px}
+.ok{color:var(--green)}.bad{color:var(--red)}
+.scorebar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;text-align:center;box-shadow:var(--shadow);font-weight:900}
+.stat b{display:block;font-size:2rem;color:var(--purple)}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}nav{position:relative;top:0;max-height:320px}.exercise{grid-template-columns:1fr}.scorebar{grid-template-columns:1fr 1fr}}
+
+.deepBtn{margin-top:16px;background:linear-gradient(90deg,var(--pink),var(--purple));color:white;border:0;border-radius:16px;padding:14px 20px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px #0002}
+.modal{position:fixed;inset:0;background:rgba(20,12,35,.66);display:none;align-items:center;justify-content:center;padding:18px;z-index:99}
+.modal.show{display:flex}
+.modalBox{width:min(980px,100%);max-height:92vh;overflow:auto;background:var(--card);color:var(--ink);border-radius:28px;box-shadow:0 25px 70px rgba(0,0,0,.35);border:1px solid var(--border)}
+.modalHead{position:sticky;top:0;background:linear-gradient(90deg,var(--purple),var(--pink));color:white;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:2}
+.closeBtn{border:0;border-radius:999px;background:white;color:var(--purple);font-weight:900;padding:10px 14px;cursor:pointer}
+.deepInfo{padding:18px 24px;background:#fff8;border-bottom:1px solid var(--border)}
+body.dark .deepInfo{background:#ffffff08}
+.deepExercise{display:grid;grid-template-columns:64px 1fr 210px auto;gap:10px;align-items:center;padding:13px 18px;border-bottom:1px solid var(--border)}
+.deepExercise:nth-child(even){background:#faf7ff}
+body.dark .deepExercise:nth-child(even){background:#ffffff05}
+.deepNum{font-weight:900;color:var(--purple)}
+.deepLevel{display:inline-block;border-radius:999px;padding:4px 9px;font-size:.8rem;font-weight:900;background:#f1e7ff;color:var(--purple);margin-left:8px}
+body.dark .deepLevel{background:#ffffff12;color:#ffdff0}
+.deepResult{font-weight:900;min-width:115px}
+@media(max-width:800px){.deepExercise{grid-template-columns:1fr}.modalHead{align-items:flex-start;flex-direction:column}}
+
+</style>
+</head>
+<body>
+<header>
+<h1>📚 Deutsche Grammatik</h1>
+<p>Explicaciones claras, ejemplos en alemán y español, y ejercicios interactivos para practicar gramática nivel A2–B1.</p>
+</header>
+
+<div class="app">
+  <div class="toolbar">
+    <button class="btn primary" onclick="showAll()">Mostrar todos los temas</button>
+    <button class="btn" onclick="toggleDark()">🌙 Modo oscuro</button>
+    <button class="btn" onclick="resetAll()">🔄 Reiniciar ejercicios</button>
+  </div>
+
+  <div class="scorebar">
+    <div class="stat">✅ Correctas <b id="correct">0</b></div>
+    <div class="stat">❌ Incorrectas <b id="wrong">0</b></div>
+    <div class="stat">⭐ Puntos <b id="points">0</b></div>
+    <div class="stat">🔥 Racha <b id="streak">0</b></div>
+  </div>
+
+  <div class="layout">
+    <nav id="nav"></nav>
+    <main id="main"></main>
+  </div>
+</div>
+
+
+<div class="modal" id="deepModal">
+  <div class="modalBox">
+    <div class="modalHead">
+      <div>
+        <h2 id="deepTitle" style="margin:0">Ejercitación profunda</h2>
+        <p style="margin:5px 0 0">30 ejercicios de menor a mayor dificultad</p>
+      </div>
+      <button class="closeBtn" onclick="closeDeep()">Cerrar ✕</button>
+    </div>
+    <div class="deepInfo">
+      Completa todos los espacios. Los primeros ejercicios son básicos, los del medio combinan estructuras y los últimos son más desafiantes.
+    </div>
+    <div id="deepList"></div>
+  </div>
+</div>
+
+<footer>© 2026 – Grammatik lernen Schritt für Schritt</footer>
+
+<script>
+const topics = [{"id": "praesens", "title": "1. Präsens – Conjugación en presente", "icon": "🌱", "explanation": "El Präsens se usa para hablar de acciones actuales, hábitos y también del futuro cercano cuando hay una expresión de tiempo. El verbo conjugado normalmente va en posición 2.", "examples": [["Ich lerne Deutsch.", "Yo aprendo alemán."], ["Morgen gehe ich zur Schule.", "Mañana voy a la escuela."]], "table": [["Pronombre", "lernen"], ["ich", "lerne"], ["du", "lernst"], ["er/sie/es", "lernt"], ["wir", "lernen"], ["ihr", "lernt"], ["sie/Sie", "lernen"]], "exercises": [{"q": "Ich ___ Deutsch. (lernen)", "a": "lerne"}, {"q": "Du ___ sehr gut. (sprechen)", "a": "sprichst"}, {"q": "Wir ___ heute Pizza. (essen)", "a": "essen"}]}, {"id": "praeteritum", "title": "2. Präteritum – Pasado simple", "icon": "📘", "explanation": "El Präteritum se usa mucho en textos escritos, cuentos, noticias y con verbos como sein, haben y werden también en conversación.", "examples": [["Ich war gestern krank.", "Ayer estuve enfermo/a."], ["Wir hatten keine Zeit.", "No teníamos tiempo."]], "table": [["Verbo", "Präsens", "Präteritum"], ["sein", "ich bin", "ich war"], ["haben", "ich habe", "ich hatte"], ["werden", "ich werde", "ich wurde"], ["gehen", "ich gehe", "ich ging"]], "exercises": [{"q": "Gestern ___ ich zu Hause. (sein)", "a": "war"}, {"q": "Wir ___ viel Arbeit. (haben)", "a": "hatten"}, {"q": "Er ___ Arzt. (werden)", "a": "wurde"}]}, {"id": "perfekt", "title": "3. Perfekt – Pasado compuesto", "icon": "⏰", "explanation": "El Perfekt se usa mucho al hablar. Se forma con haben o sein + Partizip II. Con movimiento o cambio de estado normalmente se usa sein.", "examples": [["Ich habe Deutsch gelernt.", "He aprendido alemán."], ["Sie ist nach Berlin gefahren.", "Ella fue / ha ido a Berlín."]], "table": [["Estructura", "Ejemplo"], ["haben + Partizip II", "Ich habe gelernt."], ["sein + Partizip II", "Ich bin gegangen."]], "exercises": [{"q": "Ich ___ ein Buch gelesen. (haben/sein)", "a": "habe"}, {"q": "Er ist nach Hause ___. (gehen)", "a": "gegangen"}, {"q": "Wir haben Musik ___. (hören)", "a": "gehört"}]}, {"id": "futur", "title": "4. Futur I – Futuro", "icon": "🚀", "explanation": "El Futur I se forma con werden + infinitivo. El verbo werden va conjugado en posición 2 y el infinitivo va al final.", "examples": [["Ich werde morgen lernen.", "Mañana estudiaré."], ["Wir werden Deutsch sprechen.", "Hablaremos alemán."]], "table": [["Estructura", "werden + infinitivo"], ["ich", "werde lernen"], ["du", "wirst lernen"], ["er/sie/es", "wird lernen"], ["wir", "werden lernen"]], "exercises": [{"q": "Ich ___ morgen lernen. (werden)", "a": "werde"}, {"q": "Du ___ die Prüfung bestehen. (werden)", "a": "wirst"}, {"q": "Wir werden Deutsch ___. (sprechen)", "a": "sprechen"}]}, {"id": "konj2", "title": "5. Konjunktiv II – Deseos y cortesía", "icon": "💭", "explanation": "El Konjunktiv II se usa para expresar deseos, situaciones hipotéticas y pedidos amables. Muy común: würde + infinitivo, hätte, wäre, könnte, müsste.", "examples": [["Ich hätte gern einen Kaffee.", "Quisiera un café."], ["Wenn ich Zeit hätte, würde ich reisen.", "Si tuviera tiempo, viajaría."]], "table": [["Forma", "Uso"], ["ich hätte", "yo tendría"], ["ich wäre", "yo sería/estaría"], ["ich könnte", "yo podría"], ["ich würde lernen", "yo aprendería"]], "exercises": [{"q": "Ich ___ gern ein Wasser. (haben)", "a": "hätte"}, {"q": "Wenn ich reich wäre, ___ ich reisen. (würde)", "a": "würde"}, {"q": "___ Sie mir helfen? (können)", "a": "Könnten"}]}, {"id": "konj", "title": "6. Wichtige Konjunktionen – Conectores importantes", "icon": "🔗", "explanation": "Las conjunciones unen frases. Algunas no cambian el orden: und, aber, denn, oder. Otras mandan el verbo conjugado al final: weil, dass, wenn, obwohl.", "examples": [["Ich lerne Deutsch, weil ich in Deutschland arbeiten möchte.", "Aprendo alemán porque quiero trabajar en Alemania."], ["Ich bin müde, aber ich lerne weiter.", "Estoy cansado/a, pero sigo estudiando."]], "table": [["Tipo", "Conjunciones", "Orden"], ["Posición 0", "und, aber, denn, oder", "verbo en posición 2"], ["Subordinantes", "weil, dass, wenn, obwohl", "verbo al final"]], "exercises": [{"q": "Ich lerne Deutsch, ___ ich die Prüfung bestehen will.", "a": "weil"}, {"q": "Ich bin müde, ___ ich mache weiter.", "a": "aber"}, {"q": "Ich glaube, ___ Deutsch wichtig ist.", "a": "dass"}]}, {"id": "cases", "title": "7. Nominativ, Akkusativ und Dativ", "icon": "🎯", "explanation": "El Nominativ indica el sujeto. El Akkusativ suele indicar el objeto directo. El Dativ suele indicar el objeto indirecto, es decir, la persona que recibe algo o se beneficia de algo.", "examples": [["Der Mann kauft den Ball.", "El hombre compra la pelota."], ["Der Mann gibt dem Kind den Ball.", "El hombre le da la pelota al niño."]], "table": [["Caso", "Pregunta", "Artículo masculino"], ["Nominativ", "Wer? / ¿Quién?", "der Mann"], ["Akkusativ", "Wen? / ¿A quién? / ¿Qué?", "den Mann"], ["Dativ", "Wem? / ¿A quién?", "dem Mann"]], "exercises": [{"q": "___ Hund schläft. (der/den/dem)", "a": "Der"}, {"q": "Ich sehe ___ Hund. (der/den/dem)", "a": "den"}, {"q": "Ich helfe ___ Mann. (der/den/dem)", "a": "dem"}]}, {"id": "prep", "title": "8. Präpositionen – Akkusativ, Dativ y Wechselpräpositionen", "icon": "🧭", "explanation": "Algunas preposiciones siempre usan Akkusativ, otras siempre Dativ. Las Wechselpräpositionen usan Akkusativ con movimiento hacia un lugar y Dativ con ubicación.", "examples": [["Ich gehe in die Schule.", "Voy a la escuela. Movimiento: Akkusativ."], ["Ich bin in der Schule.", "Estoy en la escuela. Ubicación: Dativ."]], "table": [["Grupo", "Preposiciones"], ["Akkusativ", "durch, für, gegen, ohne, um"], ["Dativ", "aus, bei, mit, nach, seit, von, zu"], ["Wechsel", "an, auf, hinter, in, neben, über, unter, vor, zwischen"]], "exercises": [{"q": "Ich gehe ___ den Park. (in/im)", "a": "in"}, {"q": "Ich bin ___ Park. (in/im)", "a": "im"}, {"q": "Ich fahre ___ dem Bus. (mit/für)", "a": "mit"}]}, {"id": "adj", "title": "9. Adjektivdeklination – Declinación del adjetivo", "icon": "🎨", "explanation": "El adjetivo cambia su terminación según artículo, género, número y caso. Con artículo definido suele llevar -e o -en. Con artículo indefinido puede llevar marcas más fuertes como -er, -es, -e.", "examples": [["Der gute Mann kommt.", "El hombre bueno viene."], ["Ich sehe einen guten Mann.", "Veo a un hombre bueno."], ["Das ist ein schönes Haus.", "Esa es una casa bonita."]], "table": [["Tipo", "Ejemplo"], ["Artículo definido", "der gute Mann / den guten Mann"], ["Artículo indefinido", "ein guter Mann / einen guten Mann"], ["Sin artículo", "guter Kaffee / gutes Wasser"]], "exercises": [{"q": "Der ___ Mann ist nett. (gut)", "a": "gute"}, {"q": "Ich sehe einen ___ Hund. (klein)", "a": "kleinen"}, {"q": "Das ist ein ___ Haus. (schön)", "a": "schönes"}]}, {"id": "satzbau", "title": "10. Satzbau – Orden de la oración", "icon": "🏗️", "explanation": "En una oración principal, el verbo conjugado va en posición 2. En preguntas de sí/no, el verbo va en posición 1. En frases subordinadas con weil, dass, wenn u obwohl, el verbo conjugado va al final.", "examples": [["Heute lerne ich Deutsch.", "Hoy aprendo alemán."], ["Lernst du Deutsch?", "¿Aprendes alemán?"], ["Ich lerne, weil ich eine Prüfung habe.", "Aprendo porque tengo una prueba."]], "table": [["Tipo", "Orden"], ["Principal", "Posición 1 + verbo + sujeto + complemento"], ["Pregunta sí/no", "Verbo + sujeto + complemento"], ["Subordinada", "Conjunción + sujeto + complementos + verbo final"]], "exercises": [{"q": "Heute ___ ich Deutsch. (lernen)", "a": "lerne"}, {"q": "___ du Deutsch? (lernen)", "a": "Lernst"}, {"q": "Ich lerne, weil ich eine Prüfung ___. (haben)", "a": "habe"}]}];
+const deepExercises = {"praesens": [["Ich ___ jeden Tag Deutsch. (lernen)", "lerne"], ["Du ___ sehr schnell. (arbeiten)", "arbeitest"], ["Er ___ gern Tee. (trinken)", "trinkt"], ["Wir ___ im Park. (spielen)", "spielen"], ["Ihr ___ heute Musik. (hören)", "hört"], ["Sie ___ in Berlin. (wohnen)", "wohnt"], ["Ich ___ meine Hausaufgaben. (machen)", "mache"], ["Du ___ ein Buch. (lesen)", "liest"], ["Er ___ gut Deutsch. (sprechen)", "spricht"], ["Wir ___ früh auf. (stehen)", "stehen"], ["Ihr ___ nach Hause. (gehen)", "geht"], ["Sie ___ einen Film. (sehen)", "sieht"], ["Ich ___ Hilfe. (brauchen)", "brauche"], ["Du ___ die Antwort. (wissen)", "weißt"], ["Er ___ viel Zeit. (haben)", "hat"], ["Wir ___ müde. (sein)", "sind"], ["Ihr ___ freundlich. (sein)", "seid"], ["Sie ___ Lehrerin. (sein)", "ist"], ["Ich ___ morgen meine Oma. (besuchen)", "besuche"], ["Du ___ heute zu Hause. (bleiben)", "bleibst"], ["Er ___ den Bus. (nehmen)", "nimmt"], ["Wir ___ zusammen. (essen)", "essen"], ["Ihr ___ Fußball. (spielen)", "spielt"], ["Sie ___ das Fenster. (öffnen)", "öffnet"], ["Ich ___ die Tür. (schließen)", "schließe"], ["Du ___ immer pünktlich. (kommen)", "kommst"], ["Er ___ seine Tasche. (tragen)", "trägt"], ["Wir ___ eine Lösung. (finden)", "finden"], ["Ihr ___ laut. (reden)", "redet"], ["Sie ___ die Rechnung. (bezahlen)", "bezahlt"]], "praeteritum": [["Ich ___ gestern krank. (sein)", "war"], ["Du ___ keine Zeit. (haben)", "hattest"], ["Er ___ Lehrer. (werden)", "wurde"], ["Wir ___ im Kino. (sein)", "waren"], ["Ihr ___ viel Glück. (haben)", "hattet"], ["Sie ___ müde. (sein)", "war"], ["Ich ___ ein Kind. (sein)", "war"], ["Du ___ zu Hause. (sein)", "warst"], ["Er ___ keine Lust. (haben)", "hatte"], ["Wir ___ eine Prüfung. (haben)", "hatten"], ["Ihr ___ sehr nett. (sein)", "wart"], ["Sie ___ Ärztin. (werden)", "wurde"], ["Ich ___ nervös. (werden)", "wurde"], ["Du ___ ruhig. (bleiben)", "bliebst"], ["Er ___ nach Hause. (gehen)", "ging"], ["Wir ___ viel. (lernen)", "lernten"], ["Ihr ___ Deutsch. (sprechen)", "spracht"], ["Sie ___ ein Buch. (lesen)", "las"], ["Ich ___ die Antwort. (wissen)", "wusste"], ["Du ___ das Fenster. (öffnen)", "öffnetest"], ["Er ___ den Brief. (schreiben)", "schrieb"], ["Wir ___ Musik. (hören)", "hörten"], ["Ihr ___ Fußball. (spielen)", "spieltet"], ["Sie ___ den Bus. (nehmen)", "nahm"], ["Ich ___ Pizza. (essen)", "aß"], ["Du ___ Wasser. (trinken)", "trankst"], ["Er ___ lange. (schlafen)", "schlief"], ["Wir ___ schnell. (fahren)", "fuhren"], ["Ihr ___ die Stadt. (sehen)", "saht"], ["Sie ___ das Problem. (verstehen)", "verstand"]], "perfekt": [["Ich ___ Deutsch gelernt. (haben)", "habe"], ["Du hast Musik ___. (hören)", "gehört"], ["Er ist nach Hause ___. (gehen)", "gegangen"], ["Wir haben Pizza ___. (essen)", "gegessen"], ["Ihr seid früh ___. (kommen)", "gekommen"], ["Sie hat ein Buch ___. (lesen)", "gelesen"], ["Ich habe einen Film ___. (sehen)", "gesehen"], ["Du bist in die Schule ___. (fahren)", "gefahren"], ["Er hat viel ___. (arbeiten)", "gearbeitet"], ["Wir sind im Park ___. (spazieren gehen)", "spazieren gegangen"], ["Ihr habt Fußball ___. (spielen)", "gespielt"], ["Sie hat einen Brief ___. (schreiben)", "geschrieben"], ["Ich habe Wasser ___. (trinken)", "getrunken"], ["Du hast die Tür ___. (öffnen)", "geöffnet"], ["Er hat die Rechnung ___. (bezahlen)", "bezahlt"], ["Wir haben eine Lösung ___. (finden)", "gefunden"], ["Ihr seid zu Hause ___. (bleiben)", "geblieben"], ["Sie ist Lehrerin ___. (werden)", "geworden"], ["Ich habe Hilfe ___. (brauchen)", "gebraucht"], ["Du hast die Kamera ___. (kaufen)", "gekauft"], ["Er ist schnell ___. (laufen)", "gelaufen"], ["Wir haben viel ___. (reden)", "geredet"], ["Ihr habt die Nachricht ___. (bekommen)", "bekommen"], ["Sie hat den Schlüssel ___. (verlieren)", "verloren"], ["Ich habe das Spiel ___. (gewinnen)", "gewonnen"], ["Du hast den Chef ___. (grüßen)", "gegrüßt"], ["Er hat über das Wetter ___. (berichten)", "berichtet"], ["Wir haben uns ___. (verabreden)", "verabredet"], ["Ihr habt das Problem ___. (melden)", "gemeldet"], ["Sie hat die Preise ___. (senken)", "gesenkt"]], "futur": [["Ich ___ morgen lernen. (werden)", "werde"], ["Du ___ die Prüfung bestehen. (werden)", "wirst"], ["Er ___ später kommen. (werden)", "wird"], ["Wir ___ Deutsch sprechen. (werden)", "werden"], ["Ihr ___ viel üben. (werden)", "werdet"], ["Sie ___ nach Berlin fahren. (werden)", "wird"], ["Ich werde ein Buch ___. (lesen)", "lesen"], ["Du wirst Wasser ___. (trinken)", "trinken"], ["Er wird Fußball ___. (spielen)", "spielen"], ["Wir werden die Rechnung ___. (bezahlen)", "bezahlen"], ["Ihr werdet die Antwort ___. (finden)", "finden"], ["Sie wird eine Nachricht ___. (schreiben)", "schreiben"], ["Ich werde pünktlich ___. (sein)", "sein"], ["Du wirst zu Hause ___. (bleiben)", "bleiben"], ["Er wird Arzt ___. (werden)", "werden"], ["Wir werden morgen ___. (arbeiten)", "arbeiten"], ["Ihr werdet Musik ___. (hören)", "hören"], ["Sie wird den Chef ___. (grüßen)", "grüßen"], ["Ich werde die Kamera ___. (kaufen)", "kaufen"], ["Du wirst das Problem ___. (melden)", "melden"], ["Er wird eine Lösung ___. (zeigen)", "zeigen"], ["Wir werden über Politik ___. (reden)", "reden"], ["Ihr werdet die Miete ___. (bezahlen)", "bezahlen"], ["Sie wird das Schlüsselwort ___. (finden)", "finden"], ["Ich werde gesünder ___. (leben)", "leben"], ["Du wirst nicht ___. (stehlen)", "stehlen"], ["Er wird das Papier ___. (verbrennen)", "verbrennen"], ["Wir werden das Spiel ___. (gewinnen)", "gewinnen"], ["Ihr werdet die Prüfung nicht ___. (verlieren)", "verlieren"], ["Sie wird morgen Bericht ___. (erstatten)", "erstatten"]], "konj2": [["Ich ___ gern einen Kaffee. (haben)", "hätte"], ["Du ___ mehr Zeit. (haben)", "hättest"], ["Er ___ gern Lehrer. (sein)", "wäre"], ["Wir ___ nach Berlin reisen. (würde)", "würden"], ["Ihr ___ uns helfen. (können)", "könntet"], ["Sie ___ bitte leiser sprechen. (können)", "könnten"], ["Wenn ich Zeit hätte, ___ ich lernen. (würde)", "würde"], ["Wenn er reich wäre, ___ er ein Haus kaufen. (würde)", "würde"], ["Ich ___ gern Deutsch sprechen. (würde)", "würde"], ["Du ___ früher kommen. (sollen)", "solltest"], ["Er ___ mehr üben. (müssen)", "müsste"], ["Wir ___ gern Urlaub machen. (würde)", "würden"], ["Ihr ___ vorsichtiger sein. (sollen)", "solltet"], ["Sie ___ freundlich sein. (müssen)", "müssten"], ["___ Sie mir helfen? (können)", "Könnten"], ["Ich ___ gern eine Lösung finden. (würde)", "würde"], ["Du ___ die Wahrheit sagen. (sollen)", "solltest"], ["Er ___ gern gewinnen. (würde)", "würde"], ["Wir ___ nicht so tun. (sollen)", "sollten"], ["Ihr ___ euch melden. (müssen)", "müsstet"], ["Wenn ich krank wäre, ___ ich zu Hause bleiben. (würde)", "würde"], ["Wenn du lernen würdest, ___ du besser. (werden)", "würdest"], ["Wenn sie Geld hätte, ___ sie die Miete bezahlen. (würde)", "würde"], ["Ich ___ das nicht machen. (würde)", "würde"], ["Du ___ die Kamera brauchen. (können)", "könntest"], ["Er ___ den Termin absetzen. (können)", "könnte"], ["Wir ___ mehr Verständnis haben. (sollen)", "sollten"], ["Ihr ___ die Entschuldigung annehmen. (können)", "könntet"], ["Sie ___ die Regierung kritisieren. (würde)", "würde"], ["Ich ___ gern eine Nachricht bekommen. (würde)", "würde"]], "konj": [["Ich lerne Deutsch, ___ ich die Prüfung bestehen will.", "weil"], ["Ich bin müde, ___ ich lerne weiter.", "aber"], ["Ich glaube, ___ Deutsch wichtig ist.", "dass"], ["Ich gehe nach Hause, ___ ich krank bin.", "weil"], ["Er kommt nicht, ___ er keine Zeit hat.", "weil"], ["Ich trinke Tee ___ Kaffee.", "oder"], ["Sie ist nett, ___ sie ist oft müde.", "aber"], ["Wir bleiben zu Hause, ___ das Wetter schlecht ist.", "weil"], ["Ich lerne, ___ ich später arbeiten möchte.", "denn"], ["Ich weiß, ___ du Recht hast.", "dass"], ["___ ich Zeit habe, helfe ich dir.", "Wenn"], ["Er lernt viel, ___ er besteht die Prüfung nicht.", "aber"], ["Ich gehe schlafen, ___ ich sehr müde bin.", "weil"], ["Sie sagt, ___ sie morgen kommt.", "dass"], ["Ich komme später, ___ der Bus verspätet ist.", "weil"], ["Wir essen Pizza ___ trinken Wasser.", "und"], ["Du kannst Tee ___ Wasser nehmen.", "oder"], ["Er ist krank, ___ er geht zur Arbeit.", "aber"], ["Ich mache Sport, ___ ich gesund bleiben will.", "weil"], ["Ich finde, ___ Grammatik wichtig ist.", "dass"], ["___ es regnet, bleiben wir zu Hause.", "Wenn"], ["Ich lerne Deutsch, ___ ich in Deutschland studieren möchte.", "weil"], ["Sie kommt, ___ sie Zeit hat.", "wenn"], ["Er bleibt freundlich, ___ er müde ist.", "obwohl"], ["Ich bin müde, ___ mache ich weiter.", "trotzdem"], ["Es regnet, ___ bleiben wir zu Hause.", "deshalb"], ["Ich übe jeden Tag, ___ werde ich besser.", "deshalb"], ["Er hat gelernt, ___ hat er bestanden.", "deshalb"], ["Ich habe Hunger, ___ ich koche.", "deshalb"], ["Ich möchte wissen, ___ du kommst.", "ob"]], "cases": [["___ Mann schläft. (der/den/dem)", "Der"], ["Ich sehe ___ Mann. (der/den/dem)", "den"], ["Ich helfe ___ Mann. (der/den/dem)", "dem"], ["___ Kind spielt. (das/dem/den)", "Das"], ["Ich sehe ___ Kind. (das/dem/den)", "das"], ["Ich gebe ___ Kind ein Buch. (das/dem/den)", "dem"], ["___ Frau arbeitet. (die/der/den)", "Die"], ["Ich sehe ___ Frau. (die/der/den)", "die"], ["Ich helfe ___ Frau. (die/der/den)", "der"], ["Der Lehrer gibt ___ Schüler eine Aufgabe. (der/den/dem)", "dem"], ["Ich kaufe ___ Ball. (der/den/dem)", "den"], ["___ Hund bellt. (der/den/dem)", "Der"], ["Das gehört ___ Mädchen. (das/dem/den)", "dem"], ["Ich frage ___ Lehrer. (der/den/dem)", "den"], ["Wir danken ___ Frau. (die/der/den)", "der"], ["Ich brauche ___ Kamera. (die/der/dem)", "die"], ["___ Regierung entscheidet. (die/der/den)", "Die"], ["Die Nachricht hilft ___ Versicherten. (der/dem/den)", "dem"], ["Ich finde ___ Schlüsselwort. (das/dem/den)", "das"], ["Er gibt ___ Chef die Rechnung. (der/den/dem)", "dem"], ["___ Laden ist offen. (der/den/dem)", "Der"], ["Ich besuche ___ Laden. (der/den/dem)", "den"], ["Ich komme aus ___ Laden. (der/dem/den)", "dem"], ["Ich erkläre ___ Kind die Lösung. (das/dem/den)", "dem"], ["___ Lösung ist gut. (die/der/den)", "Die"], ["Ich verstehe ___ Lösung. (die/der/den)", "die"], ["Ich folge ___ Mann. (der/den/dem)", "dem"], ["Ich kenne ___ Mann. (der/den/dem)", "den"], ["___ Wetter ist schön. (das/dem/den)", "Das"], ["Ich glaube ___ Lehrer. (der/den/dem)", "dem"]], "prep": [["Ich gehe ___ den Park. (in/im)", "in"], ["Ich bin ___ Park. (in/im)", "im"], ["Ich fahre ___ dem Bus. (mit/für)", "mit"], ["Das Geschenk ist ___ dich. (für/mit)", "für"], ["Wir gehen ___ die Stadt. (durch/bei)", "durch"], ["Ich komme ___ Chile. (aus/um)", "aus"], ["Er wohnt ___ seiner Mutter. (bei/gegen)", "bei"], ["Ich fahre ___ Berlin. (nach/für)", "nach"], ["Ich warte ___ dich. (auf/an)", "auf"], ["Das Bild hängt ___ der Wand. (an die/an der)", "an der"], ["Ich hänge das Bild ___ Wand. (an die/an der)", "an die"], ["Das Buch liegt ___ dem Tisch. (auf/auf den)", "auf"], ["Ich lege das Buch ___ Tisch. (auf den/auf dem)", "auf den"], ["Die Katze ist ___ dem Sofa. (unter/unter das)", "unter"], ["Die Katze läuft ___ das Sofa. (unter/unter dem)", "unter"], ["Ich gehe ___ die Schule. (in/in der)", "in"], ["Ich bin ___ Schule. (in der/in die)", "in der"], ["Er kommt ___ dem Haus. (aus/für)", "aus"], ["Wir gehen ___ Hause. (nach/zu)", "nach"], ["Ich gehe ___ meiner Oma. (zu/um)", "zu"], ["Das ist ___ meinen Bruder. (für/mit)", "für"], ["Ich spreche ___ dem Lehrer. (mit/durch)", "mit"], ["Wir fahren ___ Österreich. (nach/bei)", "nach"], ["Ich sitze ___ dem Stuhl. (auf/auf den)", "auf"], ["Ich setze mich ___ den Stuhl. (auf/auf den)", "auf den"], ["Der Ball ist ___ dem Tisch. (unter/unter den)", "unter"], ["Ich lege den Ball ___ den Tisch. (unter/unter dem)", "unter"], ["Wir treffen uns ___ acht Uhr. (um/mit)", "um"], ["Ich gehe ___ den Fluss. (an/an den)", "an den"], ["Ich stehe ___ dem Fluss. (an/an den)", "an"]], "adj": [["Der ___ Mann ist nett. (gut)", "gute"], ["Ich sehe einen ___ Hund. (klein)", "kleinen"], ["Das ist ein ___ Haus. (schön)", "schönes"], ["Die ___ Frau kommt. (jung)", "junge"], ["Ich trinke ___ Kaffee. (heiß)", "heißen"], ["Ein ___ Kind spielt. (klein)", "kleines"], ["Ich kaufe eine ___ Kamera. (neu)", "neue"], ["Der ___ Laden ist offen. (alt)", "alte"], ["Ich sehe den ___ Chef. (streng)", "strengen"], ["Mit dem ___ Bus fahre ich. (schnell)", "schnellen"], ["Das ___ Wetter ist schön. (gut)", "gute"], ["Ich habe eine ___ Nachricht. (wichtig)", "wichtige"], ["Die ___ Lösung ist richtig. (einfach)", "einfache"], ["Ein ___ Lehrer hilft. (freundlich)", "freundlicher"], ["Ich brauche einen ___ Stift. (rot)", "roten"], ["Mit einer ___ Freundin lerne ich. (gut)", "guten"], ["Das ist ___ Wasser. (kalt)", "kaltes"], ["Ich mag ___ Musik. (laut)", "laute"], ["Der ___ Krieg war schrecklich. (lang)", "lange"], ["Eine ___ Entschuldigung ist wichtig. (ehrlich)", "ehrliche"], ["Ich sehe das ___ Kind. (klein)", "kleine"], ["Er hilft dem ___ Mann. (alt)", "alten"], ["Sie spricht mit der ___ Frau. (nett)", "netten"], ["Ich kaufe die ___ Tasche. (schwarz)", "schwarze"], ["Wir suchen ein ___ Schlüsselwort. (passend)", "passendes"], ["Guter Kaffee schmeckt gut. Es ist ___ Kaffee. (gut)", "guter"], ["Ich trinke ___ Tee. (warm)", "warmen"], ["Sie hat ein ___ Problem. (groß)", "großes"], ["Wir brauchen eine ___ Erklärung. (klar)", "klare"], ["Mit gutem Verständnis: Das ist mit ___ Verständnis. (gut)", "gutem"]], "satzbau": [["Heute ___ ich Deutsch. (lernen)", "lerne"], ["___ du Deutsch? (lernen)", "Lernst"], ["Ich lerne, weil ich eine Prüfung ___. (haben)", "habe"], ["Morgen ___ wir nach Berlin. (fahren)", "fahren"], ["Um acht Uhr ___ der Unterricht. (beginnen)", "beginnt"], ["Ich glaube, dass Deutsch wichtig ___. (sein)", "ist"], ["Wenn ich Zeit habe, ___ ich dir. (helfen)", "helfe"], ["Er ist krank, deshalb ___ er zu Hause. (bleiben)", "bleibt"], ["Trotzdem ___ er weiter. (lernen)", "lernt"], ["Am Wochenende ___ ich meine Oma. (besuchen)", "besuche"], ["Warum ___ du so spät? (kommen)", "kommst"], ["Ich weiß nicht, ob er morgen ___. (kommen)", "kommt"], ["Sie sagt, dass sie Deutsch ___. (lernen)", "lernt"], ["Heute Abend ___ ich einen Film. (sehen)", "sehe"], ["Im Sommer ___ wir viel. (reisen)", "reisen"], ["Ich habe keine Zeit, weil ich arbeiten ___. (müssen)", "muss"], ["Kannst du mir sagen, wann der Bus ___? (kommen)", "kommt"], ["Zuerst ___ ich, dann esse ich. (lernen)", "lerne"], ["Nach der Schule ___ er Fußball. (spielen)", "spielt"], ["Ich gehe ins Bett, denn ich ___ müde. (sein)", "bin"], ["Obwohl es regnet, ___ wir spazieren. (gehen)", "gehen"], ["Ich möchte, dass du mir ___. (helfen)", "hilfst"], ["Heute ___ die Preise. (steigen)", "steigen"], ["Die Regierung sagt, dass es eine Lösung ___. (geben)", "gibt"], ["Wenn das Wetter schön ist, ___ wir in den Park. (gehen)", "gehen"], ["Ich muss lernen, weil morgen die Prüfung ___. (sein)", "ist"], ["Morgen werde ich Deutsch ___. (lernen)", "lernen"], ["Ich habe gestern Deutsch ___. (gelernt/lernen)", "gelernt"], ["Der Lehrer hat gesagt, dass wir üben ___. (müssen)", "müssen"], ["Am Ende ___ wir alles besser. (verstehen)", "verstehen"]]};
+let correct=0, wrong=0, points=0, streak=0;
+const answered = new Set();
+
+function render(){
+ const nav=document.getElementById('nav');
+ const main=document.getElementById('main');
+ nav.innerHTML='';
+ main.innerHTML='';
+ topics.forEach((t,i)=>{
+   const b=document.createElement('button');
+   b.className='navbtn';
+   b.textContent=t.icon+' '+t.title;
+   b.onclick=()=>document.getElementById(t.id).scrollIntoView({behavior:'smooth',block:'start'});
+   nav.appendChild(b);
+
+   const table = t.table.map((r,idx)=>'<tr>'+r.map(c=>idx===0?'<th>'+c+'</th>':'<td>'+c+'</td>').join('')+'</tr>').join('');
+   const examples = t.examples.map(e=>`<div class="example"><b>${e[0]}</b><span>${e[1]}</span></div>`).join('');
+   const exercises = t.exercises.map((ex,j)=>`
+    <div class="exercise">
+      <div><b>Ejercicio ${j+1}:</b> ${ex.q}</div>
+      <input id="${t.id}_${j}" placeholder="Tu respuesta">
+      <button class="check" onclick="check('${t.id}',${j})">Comprobar</button>
+      <div class="feedback" id="fb_${t.id}_${j}"></div>
+    </div>`).join('');
+   main.innerHTML += `
+    <section class="panel" id="${t.id}">
+      <div class="topicHead">
+        <div class="icon">${t.icon}</div>
+        <div><span class="badge">Tema ${i+1}</span><h2>${t.title}</h2></div>
+      </div>
+      <div class="content">
+        <span class="badge">Explicación</span>
+        <p class="explain">${t.explanation}</p>
+        <span class="badge">Ejemplos</span>
+        <div class="examples">${examples}</div>
+        <span class="badge">Tabla rápida</span>
+        <table>${table}</table>
+        <div class="exerciseBox">
+          <h3>📝 Ejercicios</h3>
+          <p>Escribe la respuesta correcta. Puedes usar mayúscula o minúscula.</p>
+          ${exercises}
+          <button class="deepBtn" onclick="openDeep('${t.id}')">🚀 Ejercitación profunda: 30 ejercicios</button>
+        </div>
+      </div>
+    </section>`;
+ });
+}
+
+function norm(s){return (s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function check(id,j){
+ const key=id+'_'+j;
+ if(answered.has(key)) return;
+ const topic=topics.find(t=>t.id===id);
+ const ex=topic.exercises[j];
+ const input=document.getElementById(key);
+ const fb=document.getElementById('fb_'+key);
+ answered.add(key);
+ if(norm(input.value)===norm(ex.a)){
+   fb.innerHTML='<span class="ok">✅ Correcto</span>';
+   correct++; points+=10; streak++;
+ } else {
+   fb.innerHTML='<span class="bad">❌ Correcta: '+ex.a+'</span>';
+   wrong++; streak=0;
+ }
+ updateStats();
+}
+function updateStats(){
+ document.getElementById('correct').textContent=correct;
+ document.getElementById('wrong').textContent=wrong;
+ document.getElementById('points').textContent=points;
+ document.getElementById('streak').textContent=streak;
+}
+function toggleDark(){document.body.classList.toggle('dark');}
+function resetAll(){correct=0;wrong=0;points=0;streak=0;answered.clear();render();updateStats();}
+function showAll(){window.scrollTo({top:0,behavior:'smooth'});}
+
+function levelName(i){
+ if(i < 10) return "Fácil";
+ if(i < 20) return "Medio";
+ return "Difícil";
+}
+function openDeep(id){
+ const topic = topics.find(t=>t.id===id);
+ const list = document.getElementById('deepList');
+ document.getElementById('deepTitle').textContent = '🚀 ' + topic.title;
+ list.innerHTML = '';
+ deepExercises[id].forEach((ex,i)=>{
+   list.innerHTML += `
+    <div class="deepExercise">
+      <div class="deepNum">#${i+1}<span class="deepLevel">${levelName(i)}</span></div>
+      <div>${ex[0]}</div>
+      <input id="deep_${id}_${i}" placeholder="Respuesta">
+      <button class="check" onclick="checkDeep('${id}',${i})">✓</button>
+      <div class="deepResult" id="deepfb_${id}_${i}"></div>
+    </div>`;
+ });
+ document.getElementById('deepModal').classList.add('show');
+}
+function closeDeep(){
+ document.getElementById('deepModal').classList.remove('show');
+}
+function checkDeep(id,i){
+ const key = 'deep_'+id+'_'+i;
+ if(answered.has(key)) return;
+ const ex = deepExercises[id][i];
+ const input = document.getElementById(key);
+ const fb = document.getElementById('deepfb_'+id+'_'+i);
+ answered.add(key);
+ if(norm(input.value)===norm(ex[1])){
+   fb.innerHTML='<span class="ok">✅ +10</span>';
+   correct++; points+=10; streak++;
+ } else {
+   fb.innerHTML='<span class="bad">❌ '+ex[1]+'</span>';
+   wrong++; streak=0;
+ }
+ updateStats();
+}
+document.addEventListener('keydown', e=>{
+ if(e.key === 'Escape') closeDeep();
+});
+
+render(); updateStats();
+</script>
+</body>
+</html>
