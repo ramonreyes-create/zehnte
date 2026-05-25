@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arbeitsblatt – Tagesschau in einfacher Sprache</title>
+  <style>
+    :root {
+      --blue: #1f4e79;
+      --light-blue: #e8f1fb;
+      --accent: #3b82f6;
+      --green: #dff3e3;
+      --yellow: #fff4cc;
+      --pink: #fde2e8;
+      --text: #1f2937;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #eef5ff, #ffffff);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--blue), var(--accent));
+      color: white;
+      padding: 42px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 38px;
+    }
+
+    header p {
+      margin: 10px 0 0;
+      font-size: 18px;
+    }
+
+    main {
+      max-width: 1150px;
+      margin: 28px auto;
+      padding: 0 18px 40px;
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      margin-bottom: 22px;
+    }
+
+    .video-box {
+      background: #111827;
+      color: white;
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .video-box iframe {
+      width: 100%;
+      height: 320px;
+      border: none;
+      border-radius: 14px;
+      background: black;
+    }
+
+    .video-note {
+      font-size: 14px;
+      color: #d1d5db;
+      margin-top: 12px;
+    }
+
+    h2 {
+      color: var(--blue);
+      margin-top: 0;
+      border-left: 8px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    h3 {
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 15px;
+      background: #f8fafc;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .option {
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .phase {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .before { background: var(--yellow); }
+    .during { background: var(--light-blue); }
+    .after { background: var(--green); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th {
+      background: var(--blue);
+      color: white;
+      padding: 10px;
+      text-align: left;
+    }
+
+    td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    .writing-lines {
+      background: repeating-linear-gradient(
+        white,
+        white 29px,
+        #dbeafe 30px
+      );
+      min-height: 180px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .tip {
+      background: var(--pink);
+      border-left: 6px solid #e11d48;
+      padding: 14px;
+      border-radius: 12px;
+      margin-top: 14px;
+    }
+
+    .buttons {
+      text-align: center;
+      margin: 22px 0;
+    }
+
+    button {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      margin: 6px;
+    }
+
+    button:hover {
+      background: #12395a;
+    }
+
+    footer {
+      text-align: center;
+      color: #6b7280;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+      .top-grid,
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 30px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      header {
+        padding: 20px;
+      }
+
+      .buttons {
+        display: none;
+      }
+
+      .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+      }
+
+      .video-box {
+        background: white;
+        color: black;
+        border: 1px solid #ddd;
+      }
+
+      .video-box iframe {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Arbeitsblatt – Tagesschau in einfacher Sprache</h1>
+  <p>Vorbereitung auf DSD II · Nachrichten verstehen und darüber sprechen</p>
+</header>
+
+<main>
+
+  <section class="top-grid">
+    <div class="card">
+      <h2>Angaben</h2>
+      <div class="info-grid">
+        <div>
+          <label>Name</label>
+          <input type="text" placeholder="Name der Schülerin">
+        </div>
+        <div>
+          <label>Datum</label>
+          <input type="date">
+        </div>
+        <div>
+          <label>Thema</label>
+          <input type="text" placeholder="Aktuelles Nachrichtenthema">
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>Lernziel:</strong> Du kannst wichtige Informationen aus Nachrichten verstehen,
+        deinen Wortschatz erweitern und deine Meinung zu aktuellen Themen ausdrücken.
+      </div>
+    </div>
+
+    <div class="video-box">
+      <h2 style="color:white; border-left:none; padding-left:0;">Video</h2>
+
+      <!-- 
+        Video einbetten:
+        Falls Tagesschau einen direkten Einbettungscode anbietet,
+        kann er hier eingefügt werden.
+      -->
+
+      <iframe 
+        src="https://www.tagesschau.de/tagesschau_in_einfacher_sprache/tse-1244.html"
+        title="Tagesschau in einfacher Sprache">
+      </iframe>
+
+      <p class="video-note">
+        Falls das Video hier nicht angezeigt wird, öffne den Link direkt im Browser.
+      </p>
+    </div>
+  </section>
+
+  <div class="buttons">
+    <button onclick="window.print()">Drucken / als PDF speichern</button>
+    <button onclick="clearInputs()">Antworten löschen</button>
+  </div>
+
+  <section class="card">
+    <span class="phase before">Vor dem Hören</span>
+    <h2>Teil 1 – Einstieg</h2>
+
+    <h3>A. Was denkst du?</h3>
+    <label>1. Schaust du Nachrichten? Warum oder warum nicht?</label>
+    <textarea></textarea>
+
+    <label>2. Wo informierst du dich über aktuelle Themen?</label>
+    <div class="checkbox-grid">
+      <label class="option"><input type="checkbox"> Instagram</label>
+      <label class="option"><input type="checkbox"> TikTok</label>
+      <label class="option"><input type="checkbox"> Fernsehen</label>
+      <label class="option"><input type="checkbox"> Zeitung</label>
+      <label class="option"><input type="checkbox"> Internetseiten</label>
+      <label class="option"><input type="checkbox"> Andere</label>
+    </div>
+
+    <label style="margin-top:14px;">3. Welche Themen interessieren dich?</label>
+    <div class="checkbox-grid">
+      <label class="option"><input type="checkbox"> Politik</label>
+      <label class="option"><input type="checkbox"> Umwelt</label>
+      <label class="option"><input type="checkbox"> Sport</label>
+      <label class="option"><input type="checkbox"> Gesundheit</label>
+      <label class="option"><input type="checkbox"> Technologie</label>
+      <label class="option"><input type="checkbox"> Schule</label>
+      <label class="option"><input type="checkbox"> Wirtschaft</label>
+      <label class="option"><input type="checkbox"> Kultur</label>
+    </div>
+  </section>
+
+  <section class="card">
+    <span class="phase before">Vor dem Hören</span>
+    <h2>Teil 2 – Wortschatz</h2>
+
+    <h3>A. Verbinde das Wort mit der Bedeutung</h3>
+    <table>
+      <tr>
+        <th>Wort</th>
+        <th>Bedeutung</th>
+      </tr>
+      <tr>
+        <td>die Regierung</td>
+        <td><input type="text" placeholder="Bedeutung schreiben"></td>
+      </tr>
+      <tr>
+        <td>die Demonstration</td>
+        <td><input type="text" placeholder="Bedeutung schreiben"></td>
+      </tr>
+      <tr>
+        <td>die Entscheidung</td>
+        <td><input type="text" placeholder="Bedeutung schreiben"></td>
+      </tr>
+      <tr>
+        <td>der Krieg</td>
+        <td><input type="text" placeholder="Bedeutung schreiben"></td>
+      </tr>
+    </table>
+
+    <h3>B. Ergänze die Sätze</h3>
+    <p><strong>Wörter:</strong> Regierung – Problem – Umwelt – Lösung – Politiker</p>
+    <ol>
+      <li>Die <input type="text"> spricht über neue Regeln.</li>
+      <li>Viele Menschen finden das Thema wichtig für die <input type="text">.</li>
+      <li>Die <input type="text"> suchen nach einer Antwort.</li>
+      <li>Das <input type="text"> betrifft viele Länder.</li>
+      <li>Eine gute <input type="text"> ist nicht einfach.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <span class="phase during">Während des Hörens</span>
+    <h2>Teil 3 – Erstes Hören</h2>
+
+    <h3>Welche Themen kommen im Video vor?</h3>
+    <div class="checkbox-grid">
+      <label class="option"><input type="checkbox"> Politik</label>
+      <label class="option"><input type="checkbox"> Sport</label>
+      <label class="option"><input type="checkbox"> Umwelt</label>
+      <label class="option"><input type="checkbox"> Krieg</label>
+      <label class="option"><input type="checkbox"> Schule</label>
+      <label class="option"><input type="checkbox"> Gesundheit</label>
+      <label class="option"><input type="checkbox"> Wirtschaft</label>
+      <label class="option"><input type="checkbox"> Kultur</label>
+    </div>
+  </section>
+
+  <section class="card">
+    <span class="phase during">Während des Hörens</span>
+    <h2>Teil 4 – Zweites Hören</h2>
+
+    <h3>A. Richtig oder falsch?</h3>
+    <table>
+      <tr>
+        <th>Aussage</th>
+        <th>Richtig</th>
+        <th>Falsch</th>
+      </tr>
+      <tr>
+        <td>Im Video geht es um aktuelle Nachrichten.</td>
+        <td><input type="radio" name="q1"></td>
+        <td><input type="radio" name="q1"></td>
+      </tr>
+      <tr>
+        <td>Alle Menschen haben dieselbe Meinung.</td>
+        <td><input type="radio" name="q2"></td>
+        <td><input type="radio" name="q2"></td>
+      </tr>
+      <tr>
+        <td>Politiker sprechen über Lösungen.</td>
+        <td><input type="radio" name="q3"></td>
+        <td><input type="radio" name="q3"></td>
+      </tr>
+      <tr>
+        <td>Das Thema betrifft viele Menschen.</td>
+        <td><input type="radio" name="q4"></td>
+        <td><input type="radio" name="q4"></td>
+      </tr>
+      <tr>
+        <td>Im Beitrag werden Probleme erklärt.</td>
+        <td><input type="radio" name="q5"></td>
+        <td><input type="radio" name="q5"></td>
+      </tr>
+    </table>
+
+    <h3>B. Ergänze die Informationen</h3>
+    <label>1. Das wichtigste Thema ist:</label>
+    <textarea></textarea>
+
+    <label>2. Die Menschen reagieren so:</label>
+    <textarea></textarea>
+
+    <label>3. Eine mögliche Lösung ist:</label>
+    <textarea></textarea>
+  </section>
+
+  <section class="card">
+    <span class="phase after">Nach dem Hören</span>
+    <h2>Teil 5 – Sprache analysieren</h2>
+
+    <h3>Finde Konnektoren im Video</h3>
+    <p>Mögliche Wörter: <strong>weil – aber – deshalb – trotzdem – danach – zuerst</strong></p>
+
+    <table>
+      <tr>
+        <th>Konnektor</th>
+        <th>Beispiel aus dem Video oder eigener Satz</th>
+      </tr>
+      <tr><td><input type="text"></td><td><input type="text"></td></tr>
+      <tr><td><input type="text"></td><td><input type="text"></td></tr>
+      <tr><td><input type="text"></td><td><input type="text"></td></tr>
+      <tr><td><input type="text"></td><td><input type="text"></td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <span class="phase after">Nach dem Hören</span>
+    <h2>Teil 6 – Mündliche Kommunikation</h2>
+
+    <p>Sprich mit deiner Partnerin oder mit der Lehrkraft.</p>
+
+    <ol>
+      <li>Welche Nachricht findest du am interessantesten?</li>
+      <li>Warum ist dieses Thema wichtig?</li>
+      <li>Gibt es ein ähnliches Problem in Chile?</li>
+      <li>Was denkst du persönlich darüber?</li>
+    </ol>
+
+    <label>Notizen:</label>
+    <textarea></textarea>
+  </section>
+
+  <section class="card">
+    <span class="phase after">Nach dem Hören</span>
+    <h2>Teil 7 – Schriftliche Kommunikation</h2>
+
+    <p>
+      Schreibe einen kurzen Text von <strong>80–100 Wörtern</strong>.
+    </p>
+
+    <p><strong>Thema:</strong> Welche Nachricht findest du wichtig und warum?</p>
+
+    <p>Du kannst über diese Punkte schreiben:</p>
+    <ul>
+      <li>das Thema</li>
+      <li>deine Meinung</li>
+      <li>die Situation in Chile</li>
+      <li>mögliche Lösungen</li>
+    </ul>
+
+    <textarea style="min-height:220px;" placeholder="Schreibe deinen Text hier..."></textarea>
+  </section>
+
+  <section class="card">
+    <h2>Reflexion</h2>
+
+    <h3>Wie schwierig war das Video?</h3>
+    <div class="checkbox-grid">
+      <label class="option"><input type="radio" name="niveau"> sehr einfach</label>
+      <label class="option"><input type="radio" name="niveau"> einfach</label>
+      <label class="option"><input type="radio" name="niveau"> mittel</label>
+      <label class="option"><input type="radio" name="niveau"> schwierig</label>
+      <label class="option"><input type="radio" name="niveau"> sehr schwierig</label>
+    </div>
+
+    <label style="margin-top:14px;">Was habe ich heute gelernt?</label>
+    <textarea></textarea>
+  </section>
+
+</main>
+
+<footer>
+  Arbeitsblatt · Tagesschau in einfacher Sprache · Vorbereitung auf DSD II
+</footer>
+
+<script>
+  function clearInputs() {
+    if (confirm("Möchtest du alle Antworten löschen?")) {
+      document.querySelectorAll("input[type='text'], input[type='date'], textarea").forEach(el => el.value = "");
+      document.querySelectorAll("input[type='checkbox'], input[type='radio']").forEach(el => el.checked = false);
+    }
+  }
+</script>
+
+</body>
+</html>
