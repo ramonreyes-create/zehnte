@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arbeitsblatt B1/B2 – Tagesschau in einfacher Sprache</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f6fb;
+      color: #1f2937;
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1f4e79, #3b82f6);
+      color: white;
+      text-align: center;
+      padding: 42px 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 28px auto;
+      padding: 0 18px 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.08);
+    }
+
+    .video-card {
+      text-align: center;
+      background: #e8f1fb;
+      border: 2px solid #bfdbfe;
+    }
+
+    h2 {
+      color: #1f4e79;
+      margin-top: 0;
+      border-left: 8px solid #3b82f6;
+      padding-left: 12px;
+    }
+
+    h3 {
+      color: #1f4e79;
+      margin-bottom: 8px;
+    }
+
+    .level {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .b1 { background: #dcfce7; color: #166534; }
+    .b2 { background: #fef3c7; color: #92400e; }
+    .mix { background: #dbeafe; color: #1e40af; }
+
+    .video-button {
+      display: inline-block;
+      background: #1f4e79;
+      color: white;
+      padding: 15px 26px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .video-button:hover { background: #12395a; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 15px;
+      box-sizing: border-box;
+      background: #f8fafc;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .option {
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      font-weight: normal;
+    }
+
+    .word-bank {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 14px;
+      padding: 14px;
+      margin: 12px 0;
+      font-weight: bold;
+      color: #1e3a8a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      background: white;
+    }
+
+    th {
+      background: #1f4e79;
+      color: white;
+      padding: 10px;
+      text-align: left;
+    }
+
+    td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    .redemittel {
+      background: #fff7d6;
+      border-left: 6px solid #f59e0b;
+    }
+
+    .teacher-note {
+      background: #eef2ff;
+      border-left: 6px solid #6366f1;
+    }
+
+    .buttons {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    button {
+      background: #1f4e79;
+      color: white;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover { background: #12395a; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    @media (max-width: 750px) {
+      .info-grid { grid-template-columns: 1fr; }
+      header h1 { font-size: 28px; }
+    }
+
+    @media print {
+      body { background: white; }
+      .buttons { display: none; }
+      .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Arbeitsblatt B1/B2</h1>
+  <p>Tagesschau in einfacher Sprache – Nachrichten verstehen, analysieren und diskutieren</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>Angaben</h2>
+    <div class="info-grid">
+      <div><label>Name</label><input type="text" placeholder="Name"></div>
+      <div><label>Datum</label><input type="date"></div>
+      <div><label>Thema</label><input type="text" placeholder="Nachrichten / aktuelle Themen"></div>
+    </div>
+  </section>
+
+  <section class="card video-card">
+    <h2>Video</h2>
+    <p>Klicke auf den Button, um das Video zu öffnen.</p>
+    <a class="video-button" href="https://www.tagesschau.de/tagesschau_in_einfacher_sprache/tse-1244.html" target="_blank">▶ Video starten</a>
+  </section>
+
+  <div class="buttons">
+    <button onclick="window.print()">Drucken / als PDF speichern</button>
+    <button onclick="clearAnswers()">Antworten löschen</button>
+  </div>
+
+  <section class="card teacher-note">
+    <h2>Lernziele</h2>
+    <ul>
+      <li>Ich kann die Hauptinformationen aus Nachrichten verstehen.</li>
+      <li>Ich kann wichtige Wörter zu Politik, Wirtschaft und Gesundheit benutzen.</li>
+      <li>Ich kann meine Meinung einfach begründen.</li>
+      <li>Ich kann Ursachen und Folgen erkennen.</li>
+      <li>Ich kann einen kurzen Text zu einer Nachricht schreiben.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <span class="level b1">B1 – Vor dem Hören</span>
+    <h2>1. Einstieg</h2>
+
+    <label>1. Schaust du Nachrichten? Warum oder warum nicht?</label>
+    <textarea></textarea>
+
+    <label>2. Welche Themen interessieren dich?</label>
+    <div class="checkbox-grid">
+      <label class="option"><input type="checkbox"> Politik</label>
+      <label class="option"><input type="checkbox"> Umwelt</label>
+      <label class="option"><input type="checkbox"> Sport</label>
+      <label class="option"><input type="checkbox"> Gesundheit</label>
+      <label class="option"><input type="checkbox"> Wirtschaft</label>
+      <label class="option"><input type="checkbox"> Schule</label>
+      <label class="option"><input type="checkbox"> Technologie</label>
+      <label class="option"><input type="checkbox"> Kultur</label>
+    </div>
+
+    <label>3. Wo bekommst du Informationen?</label>
+    <textarea></textarea>
+  </section>
+
+  <section class="card">
+    <span class="level mix">B1/B2 – Wortschatz aktivieren</span>
+    <h2>2. Wortschatz: Themen, Bedeutungen und eigene Sätze</h2>
+
+    <h3>A. Ordne die Wörter dem richtigen Thema zu.</h3>
+    <p>Schreibe die Wörter in die passende Spalte.</p>
+
+    <div class="word-bank">
+      NATO · Verteidigung · Außenminister · Soldaten · Preise · Energie · Material · Handwerker · Apotheke · Medikamente · Patienten · Rezept · Impfung · Verantwortung · Unsicherheit
+    </div>
+
+    <table>
+      <tr>
+        <th>Politik / Sicherheit</th>
+        <th>Wirtschaft</th>
+        <th>Gesundheit</th>
+      </tr>
+      <tr>
+        <td><textarea placeholder="Wörter hier eintragen..."></textarea></td>
+        <td><textarea placeholder="Wörter hier eintragen..."></textarea></td>
+        <td><textarea placeholder="Wörter hier eintragen..."></textarea></td>
+      </tr>
+    </table>
+
+    <h3>B. Was bedeutet das?</h3>
+    <p>Wähle oder schreibe eine einfache Erklärung.</p>
+
+    <table>
+      <tr>
+        <th>Wort</th>
+        <th>Einfache Bedeutung</th>
+      </tr>
+      <tr>
+        <td>die Verteidigung</td>
+        <td><input type="text" placeholder="z. B. ein Land schützen"></td>
+      </tr>
+      <tr>
+        <td>das Rezept</td>
+        <td><input type="text" placeholder="z. B. Papier vom Arzt für Medikamente"></td>
+      </tr>
+      <tr>
+        <td>die Unsicherheit</td>
+        <td><input type="text" placeholder="z. B. man weiß nicht, was passiert"></td>
+      </tr>
+      <tr>
+        <td>die Verantwortung</td>
+        <td><input type="text" placeholder="z. B. eine wichtige Aufgabe haben"></td>
+      </tr>
+    </table>
+
+    <h3>C. Schreibe drei Sätze.</h3>
+    <p>Benutze mindestens drei Wörter aus der Wortbank.</p>
+    <textarea placeholder="1. ...
+2. ...
+3. ..."></textarea>
+  </section>
+
+  <section class="card">
+    <span class="level b1">B1 – Erstes Hören</span>
+    <h2>3. Globales Verstehen</h2>
+
+    <p>Welche Themen kommen im Video vor? Kreuze an.</p>
+
+    <div class="checkbox-grid">
+      <label class="option"><input type="checkbox"> NATO</label>
+      <label class="option"><input type="checkbox"> Fußball</label>
+      <label class="option"><input type="checkbox"> Krieg</label>
+      <label class="option"><input type="checkbox"> Handwerker</label>
+      <label class="option"><input type="checkbox"> Apotheken</label>
+      <label class="option"><input type="checkbox"> Musik</label>
+      <label class="option"><input type="checkbox"> Energiepreise</label>
+      <label class="option"><input type="checkbox"> Wetter</label>
+    </div>
+  </section>
+
+  <section class="card">
+    <span class="level b1">B1 – Zweites Hören</span>
+    <h2>4. Richtig oder falsch?</h2>
+
+    <table>
+      <tr><th>Aussage</th><th>Richtig</th><th>Falsch</th></tr>
+      <tr><td>Die NATO trifft sich in Schweden.</td><td><input type="radio" name="q1"></td><td><input type="radio" name="q1"></td></tr>
+      <tr><td>Die NATO spricht über Verteidigung.</td><td><input type="radio" name="q2"></td><td><input type="radio" name="q2"></td></tr>
+      <tr><td>Materialien und Energie sind billiger geworden.</td><td><input type="radio" name="q3"></td><td><input type="radio" name="q3"></td></tr>
+      <tr><td>Handwerker haben Probleme mit hohen Preisen.</td><td><input type="radio" name="q4"></td><td><input type="radio" name="q4"></td></tr>
+      <tr><td>Apotheken dürfen jetzt mehr Aufgaben übernehmen.</td><td><input type="radio" name="q5"></td><td><input type="radio" name="q5"></td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <span class="level mix">B1/B2 – Detailverstehen</span>
+    <h2>5. Informationen ergänzen</h2>
+
+    <label>Nachricht 1: Die NATO spricht über ...</label>
+    <textarea></textarea>
+
+    <label>Nachricht 2: Die Preise steigen, weil ...</label>
+    <textarea></textarea>
+
+    <label>Nachricht 3: Apotheken dürfen jetzt ...</label>
+    <textarea></textarea>
+
+    <label>Welche Nachricht findest du am wichtigsten? Warum?</label>
+    <textarea></textarea>
+  </section>
+
+  <section class="card">
+    <span class="level b2">B2 – Sprache analysieren</span>
+    <h2>6. Ursachen und Folgen</h2>
+
+    <p>Verbinde die Ideen mit <strong>weil</strong>, <strong>deshalb</strong> oder <strong>wenn</strong>.</p>
+
+    <table>
+      <tr><th>Situation</th><th>Dein Satz</th></tr>
+      <tr>
+        <td>Die Materialien sind knapp. Die Preise steigen.</td>
+        <td><input type="text" placeholder="Die Preise steigen, weil ..."></td>
+      </tr>
+      <tr>
+        <td>Es gibt weniger Ärzte in Dörfern. Apotheken werden wichtiger.</td>
+        <td><input type="text" placeholder="Apotheken werden wichtiger, weil ..."></td>
+      </tr>
+      <tr>
+        <td>Die Preise sind hoch. Weniger Kunden kommen.</td>
+        <td><input type="text" placeholder="Wenn ..., dann ..."></td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="card redemittel">
+    <span class="level mix">B1/B2 – Redemittel</span>
+    <h2>7. Redemittel für die Diskussion</h2>
+
+    <table>
+      <tr><th>Funktion</th><th>Redemittel</th></tr>
+      <tr><td>Meinung sagen</td><td>Ich finde, dass ... / Meiner Meinung nach ... / Ich glaube, dass ...</td></tr>
+      <tr><td>Begründen</td><td>Das ist wichtig, weil ... / Ein Grund dafür ist ...</td></tr>
+      <tr><td>Vergleichen</td><td>In Chile ist es ähnlich / anders, weil ...</td></tr>
+      <tr><td>Folgen erklären</td><td>Deshalb ... / Das hat zur Folge, dass ...</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <span class="level mix">B1/B2 – Mündliche Kommunikation</span>
+    <h2>8. Diskussion</h2>
+
+    <p>Sprich mit deiner Partnerin oder mit der Lehrkraft.</p>
+
+    <ol>
+      <li>Welche Nachricht findest du interessant?</li>
+      <li>Warum ist dieses Thema wichtig?</li>
+      <li>Gibt es ein ähnliches Problem in Chile?</li>
+      <li>Was ist deine Meinung?</li>
+      <li>Welche Lösung könnte es geben?</li>
+    </ol>
+
+    <label>Notizen für die Diskussion:</label>
+    <textarea></textarea>
+  </section>
+
+  <section class="card">
+    <span class="level b2">B2 – Schriftliche Kommunikation</span>
+    <h2>9. Schreiben</h2>
+
+    <p>Schreibe einen kurzen Text von <strong>80–100 Wörtern</strong>.</p>
+
+    <p><strong>Thema:</strong> Welche Nachricht findest du besonders wichtig?</p>
+
+    <ul>
+      <li>das Thema der Nachricht</li>
+      <li>warum das Thema wichtig ist</li>
+      <li>deine Meinung</li>
+      <li>ein Beispiel aus Chile</li>
+      <li>eine mögliche Lösung</li>
+    </ul>
+
+    <textarea style="min-height:240px;" placeholder="Schreibe deinen Text hier..."></textarea>
+  </section>
+
+  <section class="card">
+    <span class="level b1">B1 – Reflexion</span>
+    <h2>10. Reflexion</h2>
+
+    <p>Wie schwierig war die Aktivität?</p>
+    <div class="checkbox-grid">
+      <label class="option"><input type="radio" name="niveau"> einfach</label>
+      <label class="option"><input type="radio" name="niveau"> mittel</label>
+      <label class="option"><input type="radio" name="niveau"> schwierig</label>
+    </div>
+
+    <label>Drei neue Wörter heute:</label>
+    <textarea></textarea>
+
+    <label>Das kann ich jetzt besser:</label>
+    <textarea></textarea>
+  </section>
+
+</main>
+
+<footer>
+  Arbeitsblatt B1/B2 · Tagesschau in einfacher Sprache · Nachrichten verstehen und diskutieren
+</footer>
+
+<script>
+function clearAnswers() {
+  if (confirm("Möchtest du alle Antworten löschen?")) {
+    document.querySelectorAll("input[type='text'], input[type='date'], textarea").forEach(el => el.value = "");
+    document.querySelectorAll("input[type='checkbox'], input[type='radio']").forEach(el => el.checked = false);
+  }
+}
+</script>
+
+</body>
+</html>
