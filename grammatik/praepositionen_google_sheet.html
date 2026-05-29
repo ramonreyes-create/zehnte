@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deutsche Präpositionen nach Fällen</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --accent:#2f5f9f;
+      --accent2:#e8f0fe;
+      --ok:#207a3c;
+      --bad:#b42318;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#d8dee9;
+    }
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef4ff,#f8fafc);
+      color:var(--text);
+    }
+    header{
+      background:var(--accent);
+      color:white;
+      padding:24px 18px;
+      text-align:center;
+    }
+    header h1{margin:0 0 8px 0;font-size:28px;}
+    header p{margin:0;font-size:16px;}
+    main{
+      max-width:1050px;
+      margin:20px auto;
+      padding:0 14px 40px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
+      margin-bottom:16px;
+      box-shadow:0 6px 18px rgba(0,0,0,.06);
+    }
+    h2{color:var(--accent); margin-top:0;}
+    h3{margin-bottom:6px;}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+      gap:14px;
+    }
+    .casebox{
+      background:var(--accent2);
+      border-left:6px solid var(--accent);
+      border-radius:12px;
+      padding:14px;
+    }
+    .casebox ul{margin:8px 0 0 20px;padding:0;}
+    .name-row{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:10px;
+      align-items:end;
+    }
+    label{font-weight:bold;}
+    input[type="text"]{
+      width:100%;
+      box-sizing:border-box;
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      font-size:16px;
+    }
+    button{
+      border:0;
+      border-radius:10px;
+      padding:12px 16px;
+      font-weight:bold;
+      cursor:pointer;
+      background:var(--accent);
+      color:white;
+      font-size:15px;
+    }
+    button.secondary{
+      background:#475569;
+    }
+    button:disabled{
+      background:#94a3b8;
+      cursor:not-allowed;
+    }
+    .exercise{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:14px;
+      margin:12px 0;
+      background:#fff;
+    }
+    .exercise p{margin:0 0 10px;}
+    select{
+      padding:9px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      min-width:160px;
+      font-size:15px;
+    }
+    .feedback{
+      margin-top:10px;
+      font-weight:bold;
+    }
+    .ok{color:var(--ok);}
+    .bad{color:var(--bad);}
+    .muted{color:var(--muted);}
+    .result{
+      font-size:18px;
+      padding:14px;
+      border-radius:12px;
+      background:#f1f5f9;
+      margin-top:14px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+      font-size:14px;
+    }
+    th,td{
+      border:1px solid var(--border);
+      padding:8px;
+      vertical-align:top;
+    }
+    th{background:#eef4ff;}
+    .small{font-size:13px;color:var(--muted);}
+    @media print{
+      button{display:none;}
+      body{background:white;}
+      .card{box-shadow:none;}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Präpositionen im Deutschen nach Fällen</h1>
+  <p>Erklärung, Übungen und Ergebnisregistrierung</p>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Datos de la alumna</h2>
+    <div class="name-row">
+      <div>
+        <label for="studentName">Name der Schülerin / Nombre de la alumna</label>
+        <input type="text" id="studentName" placeholder="Vorname und Nachname" />
+      </div>
+      <button onclick="startActivity()">Aktivität starten</button>
+    </div>
+    <p class="small">El resultado se enviará a Google Sheets al presionar “Ergebnis senden”.</p>
+  </section>
+
+  <section class="card">
+    <h2>1. Was sind Präpositionen?</h2>
+    <p>Präpositionen sind kleine Wörter wie <strong>in, mit, für, wegen</strong>. Sie stehen meistens vor einem Nomen oder Pronomen und bestimmen den <strong>Kasus</strong>: Akkusativ, Dativ oder Genitiv.</p>
+    <div class="grid">
+      <div class="casebox">
+        <h3>Akkusativ</h3>
+        <p>Frage: <strong>Wohin?</strong> oder Objektbezug</p>
+        <ul>
+          <li>durch</li><li>für</li><li>gegen</li><li>ohne</li><li>um</li><li>bis</li>
+        </ul>
+        <p><em>Ich gehe durch den Park.</em></p>
+      </div>
+      <div class="casebox">
+        <h3>Dativ</h3>
+        <p>Frage: <strong>Wo?</strong> oder fester Dativ</p>
+        <ul>
+          <li>aus</li><li>bei</li><li>mit</li><li>nach</li><li>seit</li><li>von</li><li>zu</li>
+        </ul>
+        <p><em>Ich fahre mit dem Bus.</em></p>
+      </div>
+      <div class="casebox">
+        <h3>Genitiv</h3>
+        <p>Häufig in schriftlicher Sprache</p>
+        <ul>
+          <li>wegen</li><li>während</li><li>trotz</li><li>statt</li><li>innerhalb</li><li>außerhalb</li>
+        </ul>
+        <p><em>Wegen des Regens bleiben wir zu Hause.</em></p>
+      </div>
+      <div class="casebox">
+        <h3>Wechselpräpositionen</h3>
+        <p><strong>Wo? = Dativ</strong> / <strong>Wohin? = Akkusativ</strong></p>
+        <ul>
+          <li>an</li><li>auf</li><li>hinter</li><li>in</li><li>neben</li><li>über</li><li>unter</li><li>vor</li><li>zwischen</li>
+        </ul>
+        <p><em>Ich bin in der Schule. / Ich gehe in die Schule.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="activity" style="display:none;">
+    <h2>2. Übungen</h2>
+    <p>Wähle den richtigen Kasus oder die richtige Präposition.</p>
+    <div id="exercises"></div>
+    <button onclick="checkAnswers()">Prüfen</button>
+    <button class="secondary" onclick="sendResult()" id="sendBtn" disabled>Ergebnis senden</button>
+    <div id="scoreBox" class="result" style="display:none;"></div>
+  </section>
+
+  <section class="card">
+    <h2>3. Merksätze</h2>
+    <table>
+      <tr><th>Gruppe</th><th>Merksatz</th><th>Beispiel</th></tr>
+      <tr><td>Akkusativ</td><td>durch, für, gegen, ohne, um</td><td>ohne den Computer</td></tr>
+      <tr><td>Dativ</td><td>aus, bei, mit, nach, seit, von, zu</td><td>mit dem Handy</td></tr>
+      <tr><td>Genitiv</td><td>wegen, während, trotz, statt</td><td>trotz des Problems</td></tr>
+      <tr><td>Wechselpräpositionen</td><td>Wo? Dativ – Wohin? Akkusativ</td><td>in der Klasse / in die Klasse</td></tr>
+    </table>
+  </section>
+</main>
+
+<script>
+  // 1) Pega aquí la URL de tu Web App de Google Apps Script.
+  const SCRIPT_URL = "PEGA_AQUI_TU_URL_DE_APPS_SCRIPT";
+
+  const questions = [
+    {text:"Ich gehe ___ den Park.", options:["durch","mit","wegen"], answer:"durch", tip:"durch + Akkusativ"},
+    {text:"Wir fahren ___ dem Bus zur Schule.", options:["für","mit","gegen"], answer:"mit", tip:"mit + Dativ"},
+    {text:"___ des Wetters bleiben wir zu Hause.", options:["Wegen","Für","Durch"], answer:"Wegen", tip:"wegen + Genitiv"},
+    {text:"Sie wartet ___ ihrer Freundin.", options:["auf","mit","von"], answer:"auf", tip:"auf + Akkusativ bei warten auf"},
+    {text:"Ich komme ___ Chile.", options:["aus","durch","gegen"], answer:"aus", tip:"aus + Dativ"},
+    {text:"Das Geschenk ist ___ meine Mutter.", options:["für","bei","seit"], answer:"für", tip:"für + Akkusativ"},
+    {text:"Er wohnt ___ seiner Tante.", options:["bei","um","ohne"], answer:"bei", tip:"bei + Dativ"},
+    {text:"___ der Pause sprechen wir Deutsch.", options:["Während","Durch","Für"], answer:"Während", tip:"während + Genitiv"},
+    {text:"Ich lerne Deutsch ___ zwei Jahren.", options:["seit","gegen","durch"], answer:"seit", tip:"seit + Dativ"},
+    {text:"Wir gehen ___ die Schule.", options:["in","bei","von"], answer:"in", tip:"Wohin? in + Akkusativ"},
+    {text:"Wir sind ___ der Schule.", options:["in","um","durch"], answer:"in", tip:"Wo? in + Dativ"},
+    {text:"Der Hund läuft ___ den Tisch.", options:["unter","mit","seit"], answer:"unter", tip:"Wohin? unter + Akkusativ"},
+    {text:"Der Hund liegt ___ dem Tisch.", options:["unter","für","gegen"], answer:"unter", tip:"Wo? unter + Dativ"},
+    {text:"Sie kommt ___ dem Unterricht nach Hause.", options:["nach","für","um"], answer:"nach", tip:"nach + Dativ"},
+    {text:"Das Auto steht ___ dem Haus.", options:["vor","durch","ohne"], answer:"vor", tip:"Wo? vor + Dativ"},
+    {text:"Ich stelle das Fahrrad ___ das Haus.", options:["vor","mit","seit"], answer:"vor", tip:"Wohin? vor + Akkusativ"},
+    {text:"___ seines Fehlers bekommt er eine zweite Chance.", options:["Trotz","Durch","Um"], answer:"Trotz", tip:"trotz + Genitiv"},
+    {text:"Wir gehen ___ die Ecke.", options:["um","bei","von"], answer:"um", tip:"um + Akkusativ"},
+    {text:"Sie fährt ___ ihrer Schwester nach Berlin.", options:["mit","für","gegen"], answer:"mit", tip:"mit + Dativ"},
+    {text:"Ich kann ___ dich nicht gehen.", options:["ohne","seit","bei"], answer:"ohne", tip:"ohne + Akkusativ"}
+  ];
+
+  let startedAt = null;
+  let lastScore = null;
+  let attempts = 0;
+
+  function startActivity(){
+    const name = document.getElementById("studentName").value.trim();
+    if(!name){
+      alert("Bitte schreibe zuerst deinen Namen.");
+      return;
+    }
+    startedAt = new Date();
+    document.getElementById("activity").style.display = "block";
+    renderQuestions();
+    window.scrollTo({top: document.getElementById("activity").offsetTop - 10, behavior:"smooth"});
+  }
+
+  function renderQuestions(){
+    const container = document.getElementById("exercises");
+    container.innerHTML = "";
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "exercise";
+      div.innerHTML = `
+        <p><strong>${i+1}.</strong> ${q.text}</p>
+        <select id="q${i}">
+          <option value="">Bitte wählen</option>
+          ${q.options.map(o => `<option value="${o}">${o}</option>`).join("")}
+        </select>
+        <div class="feedback" id="f${i}"></div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function checkAnswers(){
+    attempts++;
+    let correct = 0;
+    let details = [];
+
+    questions.forEach((q, i) => {
+      const selected = document.getElementById("q"+i).value;
+      const fb = document.getElementById("f"+i);
+      const isCorrect = selected === q.answer;
+      if(isCorrect){
+        correct++;
+        fb.innerHTML = "✓ Richtig! " + q.tip;
+        fb.className = "feedback ok";
+      } else {
+        fb.innerHTML = "✗ Nicht richtig. Lösung: <strong>" + q.answer + "</strong>. " + q.tip;
+        fb.className = "feedback bad";
+      }
+      details.push({
+        nummer: i+1,
+        frage: q.text,
+        antwort: selected || "(keine Antwort)",
+        loesung: q.answer,
+        richtig: isCorrect ? "ja" : "nein"
+      });
+    });
+
+    const percent = Math.round((correct / questions.length) * 100);
+    lastScore = {
+      name: document.getElementById("studentName").value.trim(),
+      score: correct,
+      total: questions.length,
+      percent: percent,
+      attempts: attempts,
+      startedAt: startedAt ? startedAt.toISOString() : "",
+      finishedAt: new Date().toISOString(),
+      durationSeconds: startedAt ? Math.round((new Date() - startedAt)/1000) : "",
+      details: details
+    };
+
+    const box = document.getElementById("scoreBox");
+    box.style.display = "block";
+    box.innerHTML = `<strong>Ergebnis:</strong> ${correct}/${questions.length} Punkte (${percent}%).<br>
+    <span class="muted">Ahora puedes enviar el resultado a Google Sheets.</span>`;
+    document.getElementById("sendBtn").disabled = false;
+  }
+
+  async function sendResult(){
+    if(!lastScore){
+      alert("Bitte zuerst die Antworten prüfen.");
+      return;
+    }
+    if(SCRIPT_URL.includes("PEGA_AQUI")){
+      alert("Falta pegar la URL de Google Apps Script en la variable SCRIPT_URL.");
+      return;
+    }
+
+    const payload = {
+      activity: "Praepositionen nach Faellen",
+      ...lastScore,
+      userAgent: navigator.userAgent
+    };
+
+    try{
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload)
+      });
+      alert("Ergebnis wurde gesendet.");
+      document.getElementById("sendBtn").disabled = true;
+    }catch(error){
+      alert("No se pudo enviar. Revisa la URL del Apps Script.");
+      console.error(error);
+    }
+  }
+</script>
+</body>
+</html>
