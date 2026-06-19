@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wortschatzkontrolle – Olivia</title>
+<style>
+:root{
+  --bg:#f4f7fb; --card:#ffffff; --ink:#172033; --muted:#64748b;
+  --blue:#174ea6; --purple:#6d43c7; --green:#1f7a55; --red:#b42318;
+  --yellow:#facc15; --line:#d8e0ee; --soft:#eef4ff;
+  --shadow:0 12px 28px rgba(23,46,90,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#eef4ff,#f8fafc);color:var(--ink)}
+.start-screen{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#12386c,#174ea6 55%,#6d43c7);color:#fff;padding:24px}
+.start-card{max-width:820px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);border-radius:28px;padding:34px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.start-card h1{font-size:clamp(32px,5vw,54px);margin:0 0 10px}
+.start-card p{font-size:18px;line-height:1.55}
+.start-card input{width:100%;padding:13px 14px;border:0;border-radius:14px;margin:7px 0;font-size:17px}
+.app{display:none}
+header{background:linear-gradient(135deg,#12386c,#174ea6 60%,#6d43c7);color:#fff;padding:20px}
+.wrap{max-width:1200px;margin:auto}
+header h1{margin:0;font-size:clamp(24px,3vw,38px)}
+header p{margin:6px 0 0;opacity:.95}
+.toolbar{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 8px 18px rgba(23,46,90,.08);padding:10px 18px}
+.toolbar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.timer{margin-left:auto;background:#fff3c4;color:#6a4600;padding:9px 14px;border-radius:999px;font-weight:900}
+button{border:0;border-radius:999px;padding:11px 16px;font-weight:900;cursor:pointer;background:#e8eef8;color:#12386c}
+button.primary{background:var(--blue);color:#fff}
+button.green{background:var(--green);color:#fff}
+button.red{background:var(--red);color:#fff}
+button:disabled{opacity:.5;cursor:not-allowed}
+main{max-width:1200px;margin:auto;padding:18px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.sidebar{position:sticky;top:82px}
+.sidebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:var(--shadow)}
+.sidebox h3{margin:0 0 10px;color:var(--blue)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center;box-shadow:var(--shadow)}
+.stat b{font-size:28px;color:var(--blue);display:block}
+.progress{height:18px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin-top:10px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#1f7a55,#6d43c7);transition:.3s}
+.question{font-size:25px;font-weight:900;margin:12px 0;color:#172033}
+.context{background:#f8fafc;border-left:6px solid var(--blue);padding:14px;border-radius:14px;margin:12px 0;font-size:19px}
+.translation{color:var(--muted);font-size:15px;margin-top:4px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.opt{border:2px solid var(--line);background:#fff;color:#172033;border-radius:16px;padding:14px;text-align:left;font-size:17px;cursor:pointer}
+.opt.selected{border-color:var(--blue);background:#eef4ff}
+.opt.correct{border-color:#16a34a;background:#dcfce7}
+.opt.wrong{border-color:#dc2626;background:#fee2e2}
+.feedback{font-weight:900;min-height:26px;margin-top:10px}
+.ok{color:#166534} .bad{color:#991b1b}
+.part{display:none} .part.active{display:block}
+.result{display:none}
+.result.show{display:block}
+.tablewrap{overflow:auto;max-height:420px;border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:var(--blue);color:#fff;position:sticky;top:0}
+td,th{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+.note{font-size:48px;font-weight:900;color:var(--green)}
+.warning{background:#fff7ed;border-left:6px solid #f97316;padding:12px;border-radius:14px;line-height:1.5}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{position:static}.timer{margin-left:0}.options,.stat-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<section class="start-screen" id="startScreen">
+  <div class="start-card">
+    <h1>Wortschatzkontrolle</h1>
+    <p><strong>Vokabel lernen bei Olivia</strong></p>
+    <p>Trage deinen Namen und Kurs ein. Danach beginnt die Kontrolle im Vollbildmodus. Die Seite registriert die Arbeitszeit, Vollbild und Fokuswechsel.</p>
+    <input id="startName" placeholder="Name der Schülerin">
+    <input id="startKlasse" placeholder="Klasse / Kurs">
+    <p><button class="primary" onclick="startExam()">Kontrolle starten</button></p>
+  </div>
+</section>
+
+<div class="app" id="app">
+<header>
+  <div class="wrap">
+    <h1>Wortschatzkontrolle</h1>
+    <p>Lückentext · Wortwahl · Satzverständnis</p>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap">
+    <button class="primary" onclick="showPart('teilA')">Teil A</button>
+    <button onclick="showPart('teilB')">Teil B</button>
+    <button onclick="showPart('teilC')">Teil C</button>
+    <button class="green" onclick="finishExam()">Abgeben</button>
+    <div class="timer" id="timer">40:00</div>
+  </div>
+</div>
+
+<main>
+<div class="layout">
+<div>
+
+<section class="card">
+  <h2>Aufgabe</h2>
+  <p>Bearbeite alle Aufgaben. Es gibt nur eine richtige Antwort pro Frage.</p>
+  <div class="stat-grid">
+    <div class="stat">Fragen <b id="totalBox">40</b></div>
+    <div class="stat">Beantwortet <b id="answeredBox">0</b></div>
+    <div class="stat">Richtig <b id="correctBox">0</b></div>
+    <div class="stat">Prozent <b id="percentBox">0%</b></div>
+  </div>
+  <div class="progress"><i id="progressBar"></i></div>
+</section>
+
+<section id="teilA" class="part active">
+  <section class="card">
+    <h2>Teil A – Welches Wort passt?</h2>
+    <p>Wähle das passende Wort für den Satz.</p>
+    <div id="partAQuestions"></div>
+  </section>
+</section>
+
+<section id="teilB" class="part">
+  <section class="card">
+    <h2>Teil B – Lückentext</h2>
+    <p>Wähle die richtige Form für die Lücke.</p>
+    <div id="partBQuestions"></div>
+  </section>
+</section>
+
+<section id="teilC" class="part">
+  <section class="card">
+    <h2>Teil C – Satzverständnis</h2>
+    <p>Wähle das Wort, das in den Satz passt.</p>
+    <div id="partCQuestions"></div>
+  </section>
+</section>
+
+<section id="resultCard" class="card result">
+  <h2>Ergebnis</h2>
+  <div class="note" id="finalNote">--</div>
+  <p id="finalSummary"></p>
+  <button class="green" id="sendBtn" onclick="sendResults()">Ergebnis an den Lehrer senden</button>
+  <div class="feedback" id="sendStatus"></div>
+  <h3>Übersicht</h3>
+  <div class="tablewrap"><table id="detailTable"></table></div>
+</section>
+
+</div>
+
+<aside class="sidebar">
+  <div class="sidebox">
+    <h3>Arbeitsmodus</h3>
+    <p id="controlStatusBox">
+      <strong>Kontrolle:</strong><br>
+      Seitenwechsel / Fokusverlust: 0<br>
+      Vollbild verlassen: 0
+    </p>
+  </div>
+  <div class="sidebox">
+    <h3>Hinweise</h3>
+    <div class="warning">
+      Bleibe im Vollbildmodus. Wechsle nicht zu anderen Seiten oder Programmen.
+    </div>
+  </div>
+  <div class="sidebox">
+    <h3>Bewertung</h3>
+    <p>Note 4,0 ab 50%. Maximale Note: 7,0.</p>
+    <p>Die Note wird automatisch berechnet.</p>
+  </div>
+</aside>
+
+</div>
+</main>
+</div>
+
+<script>
+const SCRIPT_URL = "PEGAR_AQUI_LA_URL_DEL_APPS_SCRIPT";
+
+const vocab = [
+  {
+    "german": "die Recherche",
+    "spanish": "investigación",
+    "sentence": "Die ______ war sehr interessant.",
+    "translation": "La investigación fue muy interesante.",
+    "answer": "Recherche",
+    "options": [
+      "investigación",
+      "encontrar",
+      "pensar",
+      "otro/a"
+    ]
+  },
+  {
+    "german": "die Rechnung",
+    "spanish": "cuenta / factura",
+    "sentence": "Ich bezahle die ______ im Restaurant.",
+    "translation": "Yo pago la cuenta en el restaurante.",
+    "answer": "Rechnung",
+    "options": [
+      "quemar",
+      "cuenta / factura",
+      "otro/a",
+      "asegurado"
+    ]
+  },
+  {
+    "german": "die Nachricht",
+    "spanish": "noticia / mensaje",
+    "sentence": "Ich habe eine ______ bekommen.",
+    "translation": "Recibí un mensaje.",
+    "answer": "Nachricht",
+    "options": [
+      "prohibido",
+      "ganar",
+      "comprensión / entendimiento",
+      "noticia / mensaje"
+    ]
+  },
+  {
+    "german": "die Miete",
+    "spanish": "alquiler",
+    "sentence": "Die ______ ist sehr teuer.",
+    "translation": "El alquiler es muy caro.",
+    "answer": "Miete",
+    "options": [
+      "tienda",
+      "mostrar",
+      "alquiler",
+      "elegir / votar"
+    ]
+  },
+  {
+    "german": "das Schlafmittel",
+    "spanish": "somnífero",
+    "sentence": "Das ______ hilft beim Schlafen.",
+    "translation": "El somnífero ayuda a dormir.",
+    "answer": "Schlafmittel",
+    "options": [
+      "robar",
+      "saludar",
+      "subir / aumentar",
+      "somnífero"
+    ]
+  },
+  {
+    "german": "die Kamera",
+    "spanish": "cámara",
+    "sentence": "Die ______ macht schöne Fotos.",
+    "translation": "La cámara toma fotos bonitas.",
+    "answer": "Kamera",
+    "options": [
+      "informar",
+      "clima / tiempo",
+      "cámara",
+      "cancelar / destituir / dejar"
+    ]
+  },
+  {
+    "german": "wählen",
+    "spanish": "elegir / votar",
+    "sentence": "Wir ______ einen neuen Chef.",
+    "translation": "Elegimos a un nuevo jefe.",
+    "answer": "wählen",
+    "options": [
+      "gobierno",
+      "clima / tiempo",
+      "elegir / votar",
+      "comprensión / entendimiento"
+    ]
+  },
+  {
+    "german": "der Versicherte",
+    "spanish": "asegurado",
+    "sentence": "Der ______ bekommt Hilfe.",
+    "translation": "El asegurado recibe ayuda.",
+    "answer": "Versicherte",
+    "options": [
+      "tienda",
+      "asegurado",
+      "noticia / mensaje",
+      "guerra"
+    ]
+  },
+  {
+    "german": "abnehmen",
+    "spanish": "bajar de peso / disminuir / quitar",
+    "sentence": "Ich möchte gesund ______.",
+    "translation": "Quiero bajar de peso de forma saludable.",
+    "answer": "abnehmen",
+    "options": [
+      "solución",
+      "bajar de peso / disminuir / quitar",
+      "recibir",
+      "gobierno"
+    ]
+  },
+  {
+    "german": "verabreden",
+    "spanish": "quedar (con alguien)",
+    "sentence": "Wir ______ uns um acht Uhr.",
+    "translation": "Quedamos a las ocho.",
+    "answer": "verabreden",
+    "options": [
+      "jefe",
+      "cuál / qué",
+      "quedar (con alguien)",
+      "estado federal (región de Alemania)"
+    ]
+  },
+  {
+    "german": "grüßen",
+    "spanish": "saludar",
+    "sentence": "Ich möchte dich freundlich ______.",
+    "translation": "Quiero saludarte amablemente.",
+    "answer": "grüßen",
+    "options": [
+      "actuar / hacer como si",
+      "saludar",
+      "droga",
+      "prohibido"
+    ]
+  },
+  {
+    "german": "über",
+    "spanish": "sobre / acerca de",
+    "sentence": "Wir sprechen ______ das Wetter.",
+    "translation": "Hablamos sobre el clima.",
+    "answer": "über",
+    "options": [
+      "sobre / acerca de",
+      "comprensión / entendimiento",
+      "jefe",
+      "elegir / votar"
+    ]
+  },
+  {
+    "german": "so tun",
+    "spanish": "actuar / hacer como si",
+    "sentence": "Er will ______, als ob alles gut wäre.",
+    "translation": "Él quiere actuar como si todo estuviera bien.",
+    "answer": "so tun",
+    "options": [
+      "necesitar",
+      "investigación",
+      "jefe",
+      "actuar / hacer como si"
+    ]
+  },
+  {
+    "german": "melden",
+    "spanish": "informar / avisar",
+    "sentence": "Bitte ______ Sie sich morgen.",
+    "translation": "Por favor, avísese / preséntese mañana.",
+    "answer": "melden",
+    "options": [
+      "cuál / qué",
+      "clima / tiempo",
+      "informar / avisar",
+      "droga"
+    ]
+  },
+  {
+    "german": "brauchen",
+    "spanish": "necesitar",
+    "sentence": "Ich ______ Hilfe.",
+    "translation": "Necesito ayuda.",
+    "answer": "brauchen",
+    "options": [
+      "quemar",
+      "necesitar",
+      "jefe",
+      "disculpa / perdón"
+    ]
+  },
+  {
+    "german": "absetzen",
+    "spanish": "cancelar / destituir / dejar",
+    "sentence": "Der Chef will den Termin ______.",
+    "translation": "El jefe quiere cancelar la cita.",
+    "answer": "absetzen",
+    "options": [
+      "sobre / acerca de",
+      "solución",
+      "cancelar / destituir / dejar",
+      "asegurado"
+    ]
+  },
+  {
+    "german": "andere(r)",
+    "spanish": "otro/a",
+    "sentence": "Ich nehme eine ______ Tasche.",
+    "translation": "Tomo otra bolsa.",
+    "answer": "andere",
+    "options": [
+      "otro/a",
+      "jefe",
+      "asegurado",
+      "noticia / mensaje"
+    ]
+  },
+  {
+    "german": "verboten",
+    "spanish": "prohibido",
+    "sentence": "Rauchen ist hier ______.",
+    "translation": "Fumar está prohibido aquí.",
+    "answer": "verboten",
+    "options": [
+      "otro/a",
+      "palabra clave",
+      "quedar (con alguien)",
+      "prohibido"
+    ]
+  },
+  {
+    "german": "das Bundesland",
+    "spanish": "estado federal (región de Alemania)",
+    "sentence": "Bayern ist ein ______ in Deutschland.",
+    "translation": "Baviera es un estado federal en Alemania.",
+    "answer": "Bundesland",
+    "options": [
+      "palabra clave",
+      "estado federal (región de Alemania)",
+      "saludar",
+      "disculpa / perdón"
+    ]
+  },
+  {
+    "german": "die Droge",
+    "spanish": "droga",
+    "sentence": "Die ______ ist gefährlich.",
+    "translation": "La droga es peligrosa.",
+    "answer": "Droge",
+    "options": [
+      "bajar de peso / disminuir / quitar",
+      "cancelar / destituir / dejar",
+      "droga",
+      "cuenta / factura"
+    ]
+  },
+  {
+    "german": "verbrennen",
+    "spanish": "quemar",
+    "sentence": "Bitte nicht den Brief ______.",
+    "translation": "Por favor, no quemes la carta.",
+    "answer": "verbrennen",
+    "options": [
+      "quemar",
+      "cuenta / factura",
+      "estado federal (región de Alemania)",
+      "cámara"
+    ]
+  },
+  {
+    "german": "stehlen",
+    "spanish": "robar",
+    "sentence": "Man darf nicht ______.",
+    "translation": "No se debe robar.",
+    "answer": "stehlen",
+    "options": [
+      "sobre / acerca de",
+      "encontrar",
+      "robar",
+      "informar"
+    ]
+  },
+  {
+    "german": "verlieren",
+    "spanish": "perder",
+    "sentence": "Ich möchte meinen Schlüssel nicht ______.",
+    "translation": "No quiero perder mi llave.",
+    "answer": "verlieren",
+    "options": [
+      "perder",
+      "informar",
+      "informar / avisar",
+      "investigación"
+    ]
+  },
+  {
+    "german": "gewinnen",
+    "spanish": "ganar",
+    "sentence": "Unser Team kann das Spiel ______.",
+    "translation": "Nuestro equipo puede ganar el partido.",
+    "answer": "gewinnen",
+    "options": [
+      "informar / avisar",
+      "actuar / hacer como si",
+      "guerra",
+      "ganar"
+    ]
+  },
+  {
+    "german": "das Wetter",
+    "spanish": "clima / tiempo",
+    "sentence": "Heute ist das ______ schön.",
+    "translation": "Hoy el tiempo está bonito.",
+    "answer": "Wetter",
+    "options": [
+      "estado federal (región de Alemania)",
+      "prohibido",
+      "clima / tiempo",
+      "cuál / qué"
+    ]
+  },
+  {
+    "german": "berichten",
+    "spanish": "informar",
+    "sentence": "Die Zeitung will darüber ______.",
+    "translation": "El periódico quiere informar sobre eso.",
+    "answer": "berichten",
+    "options": [
+      "pensar",
+      "bajar de peso / disminuir / quitar",
+      "informar",
+      "asegurado"
+    ]
+  },
+  {
+    "german": "steigen",
+    "spanish": "subir / aumentar",
+    "sentence": "Die Preise ______ jedes Jahr.",
+    "translation": "Los precios suben cada año.",
+    "answer": "steigen",
+    "options": [
+      "perder",
+      "recibir",
+      "subir / aumentar",
+      "somnífero"
+    ]
+  },
+  {
+    "german": "die Entschuldigung",
+    "spanish": "disculpa / perdón",
+    "sentence": "Ich bitte um ______.",
+    "translation": "Pido disculpas.",
+    "answer": "Entschuldigung",
+    "options": [
+      "pensar",
+      "comprensión / entendimiento",
+      "estado federal (región de Alemania)",
+      "disculpa / perdón"
+    ]
+  },
+  {
+    "german": "der Krieg",
+    "spanish": "guerra",
+    "sentence": "Der ______ ist schrecklich.",
+    "translation": "La guerra es terrible.",
+    "answer": "Krieg",
+    "options": [
+      "investigación",
+      "cuál / qué",
+      "guerra",
+      "asegurado"
+    ]
+  },
+  {
+    "german": "die Lösung",
+    "spanish": "solución",
+    "sentence": "Wir finden eine gute ______.",
+    "translation": "Encontramos una buena solución.",
+    "answer": "Lösung",
+    "options": [
+      "somnífero",
+      "solución",
+      "quedar (con alguien)",
+      "informar / avisar"
+    ]
+  },
+  {
+    "german": "die Regierung",
+    "spanish": "gobierno",
+    "sentence": "Die ______ trifft eine Entscheidung.",
+    "translation": "El gobierno toma una decisión.",
+    "answer": "Regierung",
+    "options": [
+      "gobierno",
+      "saludar",
+      "palabra clave",
+      "tienda"
+    ]
+  },
+  {
+    "german": "welche(r/s)",
+    "spanish": "cuál / qué",
+    "sentence": "______ Antwort ist richtig?",
+    "translation": "¿Cuál respuesta es correcta?",
+    "answer": "Welche",
+    "options": [
+      "jefe",
+      "perder",
+      "encontrar",
+      "cuál / qué"
+    ]
+  },
+  {
+    "german": "zeigen",
+    "spanish": "mostrar",
+    "sentence": "Kannst du mir den Weg ______?",
+    "translation": "¿Puedes mostrarme el camino?",
+    "answer": "zeigen",
+    "options": [
+      "bajar de peso / disminuir / quitar",
+      "recibir",
+      "mostrar",
+      "robar"
+    ]
+  },
+  {
+    "german": "lassen",
+    "spanish": "dejar / permitir",
+    "sentence": "Bitte ______ mich in Ruhe.",
+    "translation": "Por favor, déjame en paz.",
+    "answer": "lass",
+    "options": [
+      "robar",
+      "cuenta / factura",
+      "dejar / permitir",
+      "alquiler"
+    ]
+  },
+  {
+    "german": "der Chef",
+    "spanish": "jefe",
+    "sentence": "Der ______ arbeitet im Büro.",
+    "translation": "El jefe trabaja en la oficina.",
+    "answer": "Chef",
+    "options": [
+      "comprensión / entendimiento",
+      "hablar / conversar",
+      "cámara",
+      "jefe"
+    ]
+  },
+  {
+    "german": "denken",
+    "spanish": "pensar",
+    "sentence": "Ich muss darüber ______.",
+    "translation": "Tengo que pensar en eso.",
+    "answer": "denken",
+    "options": [
+      "subir / aumentar",
+      "palabra clave",
+      "disculpa / perdón",
+      "pensar"
+    ]
+  },
+  {
+    "german": "bekommen",
+    "spanish": "recibir",
+    "sentence": "Ich ______ eine Nachricht.",
+    "translation": "Recibo un mensaje.",
+    "answer": "bekomme",
+    "options": [
+      "informar / avisar",
+      "otro/a",
+      "clima / tiempo",
+      "recibir"
+    ]
+  },
+  {
+    "german": "der Laden",
+    "spanish": "tienda",
+    "sentence": "Der ______ ist heute offen.",
+    "translation": "La tienda está abierta hoy.",
+    "answer": "Laden",
+    "options": [
+      "encontrar",
+      "solución",
+      "dejar / permitir",
+      "tienda"
+    ]
+  },
+  {
+    "german": "finden",
+    "spanish": "encontrar",
+    "sentence": "Ich kann meinen Schlüssel nicht ______.",
+    "translation": "No puedo encontrar mi llave.",
+    "answer": "finden",
+    "options": [
+      "encontrar",
+      "robar",
+      "necesitar",
+      "clima / tiempo"
+    ]
+  },
+  {
+    "german": "reden",
+    "spanish": "hablar / conversar",
+    "sentence": "Wir ______ über die Schule.",
+    "translation": "Hablamos sobre la escuela.",
+    "answer": "reden",
+    "options": [
+      "palabra clave",
+      "cuenta / factura",
+      "hablar / conversar",
+      "asegurado"
+    ]
+  }
+];
+
+const TOTAL_TIME = 40 * 60;
+let seconds = TOTAL_TIME;
+let timerInterval = null;
+
+let examStarted=false;
+let startZeit="";
+let startZeitISO="";
+let seitenwechsel=0;
+let vollbildVerlassen=0;
+let kontrollEvents=[];
+let alreadySent=false;
+
+let questions = [];
+let answers = {};
+let checked = false;
+
+function shuffle(arr){
+  return [...arr].sort(()=>Math.random()-0.5);
+}
+
+function makeOptions(correct){
+  const pool = vocab.map(x=>x.answer).filter(x=>x && x !== correct);
+  return shuffle([correct, ...shuffle(pool).slice(0,3)]);
+}
+
+function makeQuestions(){
+  const shuffled = shuffle(vocab).slice(0,40);
+
+  const partA = shuffled.slice(0,14).map((w,i)=>({
+    id:"A"+(i+1),
+    part:"Teil A",
+    prompt:w.sentence,
+    sub:"Wähle das passende Wort.",
+    options:makeOptions(w.answer),
+    correct:w.answer,
+    word:w.german,
+    expected:w.answer
+  }));
+
+  const partB = shuffled.slice(14,28).map((w,i)=>({
+    id:"B"+(i+1),
+    part:"Teil B",
+    prompt:w.sentence,
+    sub:"Achte auf die Form im Satz.",
+    options:makeOptions(w.answer),
+    correct:w.answer,
+    word:w.german,
+    expected:w.answer
+  }));
+
+  const partC = shuffled.slice(28,40).map((w,i)=>({
+    id:"C"+(i+1),
+    part:"Teil C",
+    prompt:w.sentence,
+    sub:"Welches Wort ergänzt den Satz sinnvoll?",
+    options:makeOptions(w.answer),
+    correct:w.answer,
+    word:w.german,
+    expected:w.answer
+  }));
+
+  questions = [...partA, ...partB, ...partC];
+}
+
+function renderQuestions(){
+  renderPart("partAQuestions", questions.filter(q=>q.part==="Teil A"));
+  renderPart("partBQuestions", questions.filter(q=>q.part==="Teil B"));
+  renderPart("partCQuestions", questions.filter(q=>q.part==="Teil C"));
+  document.getElementById("totalBox").textContent = questions.length;
+}
+
+function renderPart(containerId, qs){
+  const box=document.getElementById(containerId);
+  box.innerHTML = qs.map(q=>`
+    <div class="card" id="card_${q.id}">
+      <div class="question">${q.id}. ${q.prompt}</div>
+      <div class="translation">${q.sub}</div>
+      <div class="options">
+        ${q.options.map(opt=>`<button class="opt" onclick="selectAnswer('${q.id}', this, ${JSON.stringify(opt)})">${opt}</button>`).join("")}
+      </div>
+      <div class="feedback" id="fb_${q.id}"></div>
+    </div>
+  `).join("");
+}
+
+function selectAnswer(id, btn, value){
+  if(checked) return;
+  answers[id]=value;
+  const card=document.getElementById("card_"+id);
+  card.querySelectorAll(".opt").forEach(b=>b.classList.remove("selected"));
+  btn.classList.add("selected");
+  updateStats();
+}
+
+function updateStats(){
+  const answered = Object.keys(answers).length;
+  let correct = 0;
+  questions.forEach(q=>{ if(answers[q.id] === q.correct) correct++; });
+  const percent = questions.length ? Math.round((correct/questions.length)*100) : 0;
+  document.getElementById("answeredBox").textContent = answered;
+  document.getElementById("correctBox").textContent = correct;
+  document.getElementById("percentBox").textContent = percent + "%";
+  document.getElementById("progressBar").style.width = Math.round((answered/questions.length)*100)+"%";
+}
+
+function calculateGrade(percent){
+  let grade;
+  if(percent < 50){
+    grade = 1 + (percent/50)*3;
+  } else {
+    grade = 4 + ((percent-50)/50)*3;
+  }
+  return Math.max(1, Math.min(7, grade)).toFixed(1).replace(".", ",");
+}
+
+function finishExam(){
+  checked = true;
+  clearInterval(timerInterval);
+
+  let correct=0;
+  questions.forEach(q=>{
+    const card=document.getElementById("card_"+q.id);
+    const selected = answers[q.id];
+    if(selected === q.correct) correct++;
+    card.querySelectorAll(".opt").forEach(btn=>{
+      if(btn.textContent === q.correct) btn.classList.add("correct");
+      if(btn.textContent === selected && selected !== q.correct) btn.classList.add("wrong");
+    });
+    const fb=document.getElementById("fb_"+q.id);
+    if(!selected) fb.innerHTML='<span class="bad">Nicht beantwortet.</span>';
+    else if(selected === q.correct) fb.innerHTML='<span class="ok">Richtig.</span>';
+    else fb.innerHTML='<span class="bad">Falsch.</span>';
+  });
+
+  const total=questions.length;
+  const percent=Math.round((correct/total)*100);
+  const grade=calculateGrade(percent);
+
+  document.getElementById("finalNote").textContent = "Note: " + grade;
+  document.getElementById("finalSummary").innerHTML =
+    `<strong>${correct} / ${total}</strong> richtig · ${percent}% · Restzeit: ${document.getElementById("timer").textContent}`;
+
+  const rows = questions.map(q=>{
+    const selected=answers[q.id] || "";
+    const ok = selected === q.correct ? "✓" : "✗";
+    return `<tr><td>${q.id}</td><td>${q.prompt}</td><td>${selected || "—"}</td><td>${q.correct}</td><td>${ok}</td></tr>`;
+  }).join("");
+
+  document.getElementById("detailTable").innerHTML =
+    `<tr><th>Nr.</th><th>Satz</th><th>Antwort</th><th>Erwartet</th><th>OK</th></tr>${rows}`;
+
+  document.getElementById("resultCard").classList.add("show");
+  document.getElementById("resultCard").scrollIntoView({behavior:"smooth"});
+  updateStats();
+}
+
+function showPart(id){
+  document.querySelectorAll(".part").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function startExam(){
+  const n=document.getElementById("startName").value.trim();
+  if(!n){alert("Bitte Namen eintragen.");return;}
+  examStarted=true;
+  startZeit = new Date().toLocaleString("de-DE");
+  startZeitISO = new Date().toISOString();
+  kontrollEvents.push(startZeit+" – Kontrolle gestartet");
+
+  makeQuestions();
+  renderQuestions();
+
+  document.getElementById("startScreen").style.display="none";
+  document.getElementById("app").style.display="block";
+
+  if(document.documentElement.requestFullscreen){
+    document.documentElement.requestFullscreen().catch(()=>{});
+  }
+  startTimer();
+}
+
+function startTimer(){
+  if(timerInterval) return;
+  timerInterval=setInterval(()=>{
+    seconds--;
+    if(seconds<=0){
+      seconds=0;
+      clearInterval(timerInterval);
+      alert("Die Arbeitszeit ist beendet. Die Kontrolle wird abgegeben.");
+      finishExam();
+    }
+    const m=String(Math.floor(seconds/60)).padStart(2,"0");
+    const s=String(seconds%60).padStart(2,"0");
+    document.getElementById("timer").textContent=m+":"+s;
+  },1000);
+}
+
+function registerControlEvent(type){
+  if(!examStarted) return;
+  const entry = new Date().toLocaleString("de-DE") + " – " + type;
+  kontrollEvents.push(entry);
+  updateControlStatus();
+}
+
+function updateControlStatus(){
+  const box=document.getElementById("controlStatusBox");
+  box.innerHTML =
+    "<strong>Kontrolle:</strong><br>" +
+    "Seitenwechsel / Fokusverlust: " + seitenwechsel + "<br>" +
+    "Vollbild verlassen: " + vollbildVerlassen;
+}
+
+function isInFullscreen(){
+  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function handleFullscreenExit(){
+  if(examStarted && !isInFullscreen()){
+    vollbildVerlassen++;
+    registerControlEvent("Vollbildmodus wurde verlassen");
+  }
+}
+
+document.addEventListener("visibilitychange",()=>{
+  if(examStarted && document.visibilityState==="hidden"){
+    seitenwechsel++;
+    registerControlEvent("Andere Registerkarte geöffnet / Seite verlassen / Fenster minimiert");
+  }
+});
+
+window.addEventListener("blur",()=>{
+  if(examStarted){
+    seitenwechsel++;
+    registerControlEvent("Browserfenster hat den Fokus verloren");
+  }
+});
+
+window.addEventListener("focus",()=>{
+  if(examStarted) registerControlEvent("Fenster wieder aktiv");
+});
+
+document.addEventListener("fullscreenchange",handleFullscreenExit);
+document.addEventListener("webkitfullscreenchange",handleFullscreenExit);
+document.addEventListener("mozfullscreenchange",handleFullscreenExit);
+document.addEventListener("MSFullscreenChange",handleFullscreenExit);
+
+window.addEventListener("pagehide",()=>{
+  if(examStarted){
+    seitenwechsel++;
+    registerControlEvent("Seite wurde verlassen");
+  }
+});
+
+window.addEventListener("beforeunload",()=>{
+  if(examStarted) registerControlEvent("Versuch, die Seite neu zu laden oder zu schließen");
+});
+
+function getPayload(){
+  let correct=0;
+  questions.forEach(q=>{ if(answers[q.id] === q.correct) correct++; });
+  const total=questions.length;
+  const percent=total ? Math.round((correct/total)*100) : 0;
+  const grade=calculateGrade(percent);
+  const detail = questions.map(q=>({
+    id:q.id,
+    teil:q.part,
+    wort:q.word,
+    frage:q.prompt,
+    antwort:answers[q.id] || "",
+    richtig:q.correct,
+    ok:answers[q.id] === q.correct
+  }));
+
+  return {
+    datum:new Date().toISOString(),
+    startZeitISO,
+    startZeit,
+    sendeZeit:new Date().toLocaleString("de-DE"),
+    name:document.getElementById("startName").value.trim(),
+    klasse:document.getElementById("startKlasse").value.trim(),
+    thema:"Wortschatzkontrolle – Vokabel lernen bei Olivia",
+    richtig:correct,
+    gesamt:total,
+    prozent:percent,
+    note:grade,
+    restzeit:document.getElementById("timer").textContent,
+    beantwortet:Object.keys(answers).length,
+    seitenwechsel,
+    vollbildVerlassen,
+    verdacht:(seitenwechsel>=3 || vollbildVerlassen>=1) ? "JA" : "NEIN",
+    kontrollDetails:kontrollEvents.join("\n"),
+    details:JSON.stringify(detail)
+  };
+}
+
+async function sendResults(){
+  if(!checked) finishExam();
+  if(alreadySent) return;
+  if(SCRIPT_URL.includes("PEGAR_AQUI")){
+    alert("Falta pegar la URL del Apps Script en SCRIPT_URL.");
+    return;
+  }
+  const payload=getPayload();
+  const status=document.getElementById("sendStatus");
+  try{
+    await fetch(SCRIPT_URL,{
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload)
+    });
+    alreadySent=true;
+    document.getElementById("sendBtn").disabled=true;
+    document.getElementById("sendBtn").textContent="Ergebnis gesendet";
+    status.innerHTML='<span class="ok">Gesendet.</span>';
+  }catch(e){
+    status.innerHTML='<span class="bad">Fehler beim Senden. Bitte Script-URL prüfen.</span>';
+  }
+}
+</script>
+</body>
+</html>
